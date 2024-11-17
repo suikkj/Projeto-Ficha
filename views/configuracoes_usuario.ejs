@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles_configuracoes.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bona+Nova+SC:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Special+Elite&display=swap" rel="stylesheet">
+    <title>Configurações de Usuário - História dos Selos</title>
+    <link rel="icon" type="image/png" href="/icon/Selo de Ydra icon.png">
+</head>
+<body>
+
+    <!-- Header - Opções  -->
+    <header>
+        <div class="container">
+            <div class="logo"><img src="/icon/Selo de Ydra icon.png"></div>
+            <div class="menu">
+                <nav class="nav-barramenu">
+                    <a href="/">Menu</a>
+                    <a href="/fichas">Fichas</a>
+                    <a href="/campanhas">Campanhas</a>
+                    <a href="/arkaminos">Arkaminos</a>
+                </nav>
+            </div>
+            <div class="perfilusuario">
+                <a href="/configuracoes_usuario" id="profileLink" class="profile-link">
+                    <button id="profileButton" style="background-image: url(/public/images/default-avatar.jpg);"></button>
+                </a>
+            </div> 
+        </div>
+    </header>
+    <!-- Fim Header Opções -->
+
+    <!-- Configurações Usuário -->
+    <main>
+        <div class="wrapper">
+            <h2>Configurações</h2><br>
+            <!-- Exibir Nome de Usuário Atual -->
+            <div id="usernameSection">
+                <label for="currentUsername">Usuário:</label>
+                <span id="currentUsername">usuário_atual</span>
+                <button id="editUsernameBtn">Editar</button>
+            </div>
+
+            <!-- Formulário para Atualizar Nome de Usuário -->
+            <form id="updateUsernameForm" class="inputbox" style="display: none;">
+                <label for="username">Novo Nome:</label>
+                <input type="text" id="username" name="username" placeholder="Digite o novo nome" required>
+                <button type="submit" class="btn">Atualizar Nome</button>
+            </form>
+
+            <!-- Exibir Email Atual -->
+            <div id="emailSection">
+                <label for="currentEmail">Email:</label>
+                <span id="currentEmail">email_atual</span>
+                <button id="editEmailBtn">Editar</button>
+            </div>
+
+            <!-- Formulário para Atualizar Email -->
+            <form id="updateEmailForm" class="inputbox" style="display: none;">
+                <label for="email">Novo Email:</label>
+                <input type="email" id="email" name="email" placeholder="Digite o novo email" required>
+                <button type="submit" class="btn">Atualizar Email</button>
+            </form>
+
+            <!-- Formulário para Atualizar Senha -->
+            <form id="updatePasswordForm" class="inputbox">
+                <label for="currentPassword">Senha Atual:</label><br>
+                <input type="password" id="currentPassword" name="currentPassword" placeholder="Digite a senha atual" required><br>
+                <label for="password">Nova Senha:</label><br>
+                <input type="password" id="password" name="password" placeholder="Digite a nova senha" required><br>
+                <label for="confirmPassword">Confirme a Senha:</label><br>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirme a nova senha" required><br>
+                <button type="submit" class="btn">Atualizar Senha</button><br>
+            </form>
+
+            <!-- Formulário para Atualizar Foto de Perfil -->
+            <form id="uploadProfilePictureForm" class="inputbox" enctype="multipart/form-data">
+                <label for="uploadFotodePerfil">Nova Foto de Perfil:</label><br>
+                <button id="selectProfilePictureBtn" class="btn">Escolher Arquivo</button>
+                <input type="file" id="uploadFotodePerfil" name="uploadFotodePerfil" accept="image/*" style="display: none;">
+                <button type="submit" class="btn">Atualizar Foto</button>
+            </form>
+
+            <div id="profileUpdateMessage" style="display: none;"></div>
+        </div>
+    </main>
+    <!-- Fim Configurações Usuário -->
+
+
+    <script>
+        // Botão para selecionar a foto de perfil
+        document.getElementById('selectProfilePictureBtn').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('uploadFotodePerfil').click();
+        });
+    </script>
+
+<script src="/script.js"></script>
+</body>
+</html>

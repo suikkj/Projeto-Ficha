@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles_novaficha.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Bona+Nova+SC:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400..900&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Special+Elite&display=swap');
+        </style>
+    <title>Nova Ficha - História dos Selos</title>
+    <link rel="icon" type="image/png" href="/icon/Selo de Ydra icon.png">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo"><img src="/icon/Selo de Ydra icon.png" alt="Logo"></div>
+            <div class="menu">
+                <nav class="nav-barramenu">
+                    <a href="/">Menu</a>
+                    <a href="/fichas">Fichas</a>
+                    <a href="/campanhas">Campanhas</a>
+                    <a href="/arkaminos">Arkaminos</a>
+                </nav>
+            </div>
+            <div class="perfilusuario">
+                <a href="/configuracoes_usuario" id="profileLink" class="profile-link">
+                    <button id="profileButton" style="background-image: url(/images/default-avatar.jpg);"></button>
+                </a>
+            </div> 
+        </div>
+    </header>
+    <!-- Fim header -->
+
+    <!-- Criação Ficha -->
+    <main>
+        <div id="steps">
+            <div id="racas" class="step active">
+                <h1><span>Raça</span></h1>
+                <div class="race-container" id="firstRaceSelector">
+                   <!-- Anão -->
+                    <div class="race-button" data-race="anao" data-race-type="first">
+                        <div class="race-header">
+                             <span class="race-name">Anão</span>
+                             <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="race-content">
+                            <ul>
+                                <li>Constituição +2, Sabedoria +1, Destreza -1</li> <br>
+                                <li><span>Conhecimento das Rochas:</span> Você recebe visão no escuro e +2 em testes de Percepção e Sobrevivência realizados no subterrâneo</li><br>
+                                <li><span>Devagar e Sempre:</span> Seu deslocamento é 6m(em vez de 9m). Porém, seu deslocamento não é reduzido por uso de armadura ou excesso de carga.</li><br>
+                                <li><span>Duro como Pedra:</span> Você recebe +3 pontos de vida no 1º nível e +1 por nível seguinte.</li><br>
+                                <li><span>Tradição de Heredrimm:</span>Você é perito nas armas tradicionais anãs, seja por ter treinado com elas, seja por usá-las como ferramentas de ofício. Para você, todos os machados, martelos, marretas e picaretas são armas simples. Você recebe +2 em ataques com essas armas.</li><br>
+                            </ul>
+                         <button class="select-race">Escolher Anão</button>
+                        </div>
+                    </div>
+
+<!-- Bugbear -->
+<div class="race-button" data-race="bugbear" data-race-type="first">
+    <div class="race-header">
+        <span class="race-name">Bugbear</span>
+        <span class="toggle-info">▼</span>
+    </div>
+    <div class="race-content">
+        <li>+1 em Três Atributos Diferentes(Exceto Carisma), Carisma -2.</li><br>
+        <li><span>Híbrido Mecânico:</span> Você é uma criatura do tipo construto. Recebe visão no escuro e imunidade a cansaço, efeitos metabolícos e veneno. Além disso, não precisa respirar, alimentar-se ou dormir, mas não se beneficia de itens da categoria alimentação e efeitos de cura mundana são reduzidos pela metade em você. Você precisa ficar inerte por 8 horas por dia para recarregar suas forças. Se fizer isso, recupera PV e PM por descanso em condições normais(Yidishan não são afetados por condições boas ou ruins de descanso).</li><br>
+        <li><span>Natureza Orgânica:</span> Você se torna treinado em uma perícia(que não precisa ser da sua classe) ou recebe um poder geral a sua escolha. Como alternativa, você pode ser um Yidishan de outra raça humanoide além de humano. Neste caso, você ganha uma habilidade dessa raça a sua escolha. Se a raça era de tamanho diferente de Médio, você também possui sua categoria de tamanho.</li><br>
+        <li><span>Peças Metálicas:</span> As partes mecânicas que complementam seu corpo fornecem +2 na Defesa, mas impõem uma penalidade de armadura de -2.</li><br>
+        <button class="select-race">Escolher Bugbear</button>
+    </div>
+</div>
+
+<!-- Bugbear -->
+<div class="race-button" data-race="elfo" data-race-type="first">
+    <div class="race-header">
+        <span class="race-name">Elfo</span>
+        <span class="toggle-info">▼</span>
+    </div>
+    <div class="race-content">
+        <li>+1 em Três Atributos Diferentes(Exceto Carisma), Carisma -2.</li><br>
+        <li><span>Híbrido Mecânico:</span> Você é uma criatura do tipo construto. Recebe visão no escuro e imunidade a cansaço, efeitos metabolícos e veneno. Além disso, não precisa respirar, alimentar-se ou dormir, mas não se beneficia de itens da categoria alimentação e efeitos de cura mundana são reduzidos pela metade em você. Você precisa ficar inerte por 8 horas por dia para recarregar suas forças. Se fizer isso, recupera PV e PM por descanso em condições normais(Yidishan não são afetados por condições boas ou ruins de descanso).</li><br>
+        <li><span>Natureza Orgânica:</span> Você se torna treinado em uma perícia(que não precisa ser da sua classe) ou recebe um poder geral a sua escolha. Como alternativa, você pode ser um Yidishan de outra raça humanoide além de humano. Neste caso, você ganha uma habilidade dessa raça a sua escolha. Se a raça era de tamanho diferente de Médio, você também possui sua categoria de tamanho.</li><br>
+        <li><span>Peças Metálicas:</span> As partes mecânicas que complementam seu corpo fornecem +2 na Defesa, mas impõem uma penalidade de armadura de -2.</li><br>
+        <button class="select-race">Escolher Elfo</button>
+    </div>
+</div>
+
+
+
+<!-- Outras raças podem ser adicionadas seguindo o mesmo padrão -->
+                </div>
+            </div>
+
+            <!-- RAÇA 2 -->
+            <div id="raca2" class="step">
+                <h1><span>Segunda Raça(Opcional)</span></h1>
+                <div class="race-container" id="secondRaceSelector">
+                <!-- Bugbear -->
+    <div class="race-button" data-race="bugbear2" data-race-type="second">
+        <div class="race-header">
+            <span class="race-name">Bugbear</span>
+            <span class="toggle-info">▼</span>
+        </div>
+         <div class="race-content">
+             <li>+1 em Três Atributos Diferentes(Exceto Carisma), Carisma -2.</li><br>
+            <li><span>Híbrido Mecânico:</span> Você é uma criatura do tipo construto. Recebe visão no escuro e imunidade a cansaço, efeitos metabolícos e veneno. Além disso, não precisa respirar, alimentar-se ou dormir, mas não se beneficia de itens da categoria alimentação e efeitos de cura mundana são reduzidos pela metade em você. Você precisa ficar inerte por 8 horas por dia para recarregar suas forças. Se fizer isso, recupera PV e PM por descanso em condições normais(Yidishan não são afetados por condições boas ou ruins de descanso).</li><br>
+            <li><span>Natureza Orgânica:</span> Você se torna treinado em uma perícia(que não precisa ser da sua classe) ou recebe um poder geral a sua escolha. Como alternativa, você pode ser um Yidishan de outra raça humanoide além de humano. Neste caso, você ganha uma habilidade dessa raça a sua escolha. Se a raça era de tamanho diferente de Médio, você também possui sua categoria de tamanho.</li><br>
+            <li><span>Peças Metálicas:</span> As partes mecânicas que complementam seu corpo fornecem +2 na Defesa, mas impõem uma penalidade de armadura de -2.</li><br>
+            <button class="select-second-race">Escolher Bugbear</button>
+        </div>
+    </div>
+    <div class="race-button" data-race="elfo2" data-race-type="second">
+        <div class="race-header">
+            <span class="race-name">Elfo</span>
+            <span class="toggle-info">▼</span>
+        </div>
+         <div class="race-content">
+             <li>+1 em Três Atributos Diferentes(Exceto Carisma), Carisma -2.</li><br>
+            <li><span>Híbrido Mecânico:</span> Você é uma criatura do tipo construto. Recebe visão no escuro e imunidade a cansaço, efeitos metabolícos e veneno. Além disso, não precisa respirar, alimentar-se ou dormir, mas não se beneficia de itens da categoria alimentação e efeitos de cura mundana são reduzidos pela metade em você. Você precisa ficar inerte por 8 horas por dia para recarregar suas forças. Se fizer isso, recupera PV e PM por descanso em condições normais(Yidishan não são afetados por condições boas ou ruins de descanso).</li><br>
+            <li><span>Natureza Orgânica:</span> Você se torna treinado em uma perícia(que não precisa ser da sua classe) ou recebe um poder geral a sua escolha. Como alternativa, você pode ser um Yidishan de outra raça humanoide além de humano. Neste caso, você ganha uma habilidade dessa raça a sua escolha. Se a raça era de tamanho diferente de Médio, você também possui sua categoria de tamanho.</li><br>
+            <li><span>Peças Metálicas:</span> As partes mecânicas que complementam seu corpo fornecem +2 na Defesa, mas impõem uma penalidade de armadura de -2.</li><br>
+            <button class="select-second-race">Escolher Elfo</button>
+        </div>
+    </div>
+
+
+
+            </div>
+        </div>
+
+
+            <!-- CLASSES -->
+            <div id="classes" class="step">
+                <h1>Escolha sua: <span>Classe</span></h1>
+                <div class="class-container">
+                    <!-- Guerreiro -->
+                    <div class="class-button" data-classe="guerreiro">
+                        <div class="class-header">
+                            <span class="class-name">Guerreiro</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="class-content">
+                            <ul>
+                                <li>Força +2, Constituição +1, Inteligência -1.</li>
+                                <li><span>Especialização em Armas:</span> Você pode escolher uma categoria de arma para receber +2 em ataques e dano.</li>
+                                <li><span>Resistência Física:</span> Recebe +2 em testes de resistência contra efeitos que alteram atributos físicos.</li>
+                                <li><span>Técnicas de Combate:</span> Você aprende duas manobras de combate que podem ser usadas uma vez por combate.</li>
+                            </ul>
+                            <button class="select-class">Escolher Guerreiro</button>
+                        </div>
+                    </div>
+                    <!--Nobre -->
+                    <div class="class-button" data-classe="nobre">
+                        <div class="class-header">
+                            <span class="class-name">Nobre</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="class-content">
+                            <ul>
+                                <li>Força +2, Constituição +1, Inteligência -1.</li>
+                                <li><span>Especialização em Armas:</span> Você pode escolher uma categoria de arma para receber +2 em ataques e dano.</li>
+                                <li><span>Resistência Física:</span> Recebe +2 em testes de resistência contra efeitos que alteram atributos físicos.</li>
+                                <li><span>Técnicas de Combate:</span> Você aprende duas manobras de combate que podem ser usadas uma vez por combate.</li>
+                            </ul>
+                            <button class="select-class">Escolher Nobre</button>
+                        </div>
+                    </div>
+                    <!-- Guerreiro -->
+                    <div class="class-button" data-classe="Arcanista">
+                        <div class="class-header">
+                            <span class="class-name">Arcanista</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="class-content">
+                            <ul>
+                                <li>Força +2, Constituição +1, Inteligência -1.</li>
+                                <li><span>Especialização em Armas:</span> Você pode escolher uma categoria de arma para receber +2 em ataques e dano.</li>
+                                <li><span>Resistência Física:</span> Recebe +2 em testes de resistência contra efeitos que alteram atributos físicos.</li>
+                                <li><span>Técnicas de Combate:</span> Você aprende duas manobras de combate que podem ser usadas uma vez por combate.</li>
+                            </ul>
+                            <button class="select-class">Escolher Arcanista</button>
+                        </div>
+                    </div>
+
+                    
+
+                    <!-- Exemplo para Classe -->
+                    <div class="class-button" data-classe="broxa">
+                        <div class="class-header">
+                            <span class="class-name">Broxa</span>
+                            <span class="toggle-info">&#9660;</span>
+                        </div>
+                        <div class="class-content">
+                            <p>Descrição da Classe...</p>
+                            <button class="select-class">Selecionar Classe</button>
+                        </div>
+                    </div>
+
+                    <!-- Adicione mais classes conforme necessário seguindo o mesmo padrão -->
+                </div>
+            </div>
+
+            <!-- ORIGEM -->
+            <div id="origem" class="step">
+                <h1>Escolha sua: <span>Origem</span></h1>
+                <div class="origin-container">
+                    <!-- Nobre -->
+                    <div class="origin-button" data-origem="nobre">
+                        <div class="origin-header">
+                            <span class="origin-name">Nobre</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="origin-content">
+                            <ul>
+                                <li>Origem de uma família influente.</li><br>
+                                <li><span>Diplomacia:</span> Recebe +2 em testes de Persuasão e Intimidação.</li><br>
+                                <li><span>Recursos Financeiros:</span> Possui fundos adicionais para adquirir equipamentos.</li><br>
+                                <li><span>Conhecimento Social:</span> Recebe proficiência em Etiqueta.</li><br>
+                            </ul>
+                            <button class="select-origin">Escolher Origem Nobre</button>
+                        </div>
+                    </div>
+
+                    <!-- Mercador -->
+                    <div class="origin-button" data-origem="mercador">
+                        <div class="origin-header">
+                            <span class="origin-name">Mercador</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="origin-content">
+                            <ul>
+                                <li>Origem ligada ao comércio e negociação.</li><br>
+                                <li><span>Habilidade em Comércio:</span> Recebe +2 em testes de Comércio e Barganha.</li><br>
+                                <li><span>Rede de Contatos:</span> Possui contatos que podem fornecer informações ou recursos.</li><br>
+                                <li><span>Gestão de Recursos:</span> Pode organizar e gerir recursos de forma eficiente.</li><br>
+                            </ul>
+                            <button class="select-origin">Escolher Origem Mercador</button>
+                        </div>
+                    </div>
+
+                    <!-- Ermitão -->
+                    <div class="origin-button" data-origem="ermitão">
+                        <div class="origin-header">
+                            <span class="origin-name">Ermitão</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="origin-content">
+                            <ul>
+                                <li>Vida isolada dedicada à meditação e estudo.</li><br>
+                                <li><span>Sabedoria Interior:</span> Recebe +2 em testes de Sabedoria e Percepção.</li><br>
+                                <li><span>Conhecimento Místico:</span> Possui conhecimentos sobre práticas espirituais ou mágicas.</li><br>
+                                <li><span>Resiliência Mental:</span> Recebe vantagem em resistir a efeitos que afetam a mente.</li><br>
+                            </ul>
+                            <button class="select-origin">Escolher Origem Ermitão</button>
+                        </div>
+                    </div>
+
+                    <!-- Exemplo para Origem -->
+                    <div class="origin-button" data-origem="Humano">
+                        <div class="origin-header">
+                            <span class="origin-name">Humano</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="origin-content">
+                            <p>Descrição da Origem...</p>
+                            <button class="select-origin">Selecionar Origem</button>
+                        </div>
+                    </div>
+
+                    <!-- Adicione mais origens conforme necessário seguindo o mesmo padrão -->
+                </div>
+            </div>
+
+            <!-- ARKAMINO -->
+            <div id="arkamino" class="step">
+                <h1>Escolha seu: <span>Arkamino</span></h1>
+                <div class="arkamino-container">
+                    <!-- Arkamino Elemental -->
+                    <div class="arkamino-button" data-arkamino="elemental">
+                        <div class="arkamino-header">
+                            <span class="arkamino-name">Elemental</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="arkamino-content">
+                            <ul>
+                                <li>Conexão com os elementos naturais.</li><br>
+                                <li><span>Controle Elemental:</span> Pode manipular fogo, água, terra ou ar.</li><br>
+                                <li><span>Resistência Elementar:</span> Recebe resistência a um tipo de dano elemental.</li><br>
+                                <li><span>Forma Elemental:</span> Pode assumir temporariamente uma forma pura do elemento escolhido.</li><br>
+                            </ul>
+                            <button class="select-arkamino">Escolher Arkamino Elemental</button>
+                        </div>
+                    </div>
+
+                    <!-- Arkamino Sombrio -->
+                    <div class="arkamino-button" data-arkamino="sombrio">
+                        <div class="arkamino-header">
+                            <span class="arkamino-name">Sombrio</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="arkamino-content">
+                            <ul>
+                                <li>Conexão com as forças das sombras.</li><br>
+                                <li><span>Manipulação das Sombras:</span> Pode criar e controlar sombras para diversos efeitos.</li><br>
+                                <li><span>Invisibilidade Parcial:</span> Pode se tornar parcialmente invisível por breves períodos.</li><br>
+                                <li><span>Resistência às Trevas:</span> Recebe resistência a danos de trevas e sombras.</li><br>
+                            </ul>
+                            <button class="select-arkamino">Escolher Arkamino Sombrio</button>
+                        </div>
+                    </div>
+
+                    <!-- Arkamino Celestial -->
+                    <div class="arkamino-button" data-arkamino="celestial">
+                        <div class="arkamino-header">
+                            <span class="arkamino-name">Celestial</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="arkamino-content">
+                            <ul>
+                                <li>Conexão com entidades celestiais.</li><br>
+                                <li><span>Proteção Divina:</span> Pode invocar uma barreira protetora para si ou para aliados.</li><br>
+                                <li><span>Toque Curativo:</span> Pode curar ferimentos menores através do toque.</li><br>
+                                <li><span>Resistência Divina:</span> Recebe resistência a danos sagrados e divinos.</li><br>
+                            </ul>
+                            <button class="select-arkamino">Escolher Arkamino Celestial</button>
+                        </div>
+                    </div>
+
+                    <!-- Exemplo para Arkamino -->
+                    <div class="arkamino-button" data-arkamino="Fenix">
+                        <div class="arkamino-header">
+                            <span class="arkamino-name">Fenix</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="arkamino-content">
+                            <p>Descrição de Arkamino...</p>
+                            <button class="select-arkamino">Selecionar Arkamino</button>
+                        </div>
+                    </div>
+
+                    <!-- Adicione mais arkaminos conforme necessário seguindo o mesmo padrão -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+
+
+    <script src="/script.js"></script>
+</body>
+</html>

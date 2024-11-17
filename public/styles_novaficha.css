@@ -1,0 +1,945 @@
+* {
+    font-family: "EB Garamond", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    background-color: black;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 10px 0;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.perfilusuario {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu nav {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.menu nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 23px;
+    transition: .1s;
+}
+
+.menu nav a:hover {
+    color: red;
+    text-decoration: none;
+    font-size: 20px;
+    transform: scale(1.05);
+    text-decoration: underline;
+}
+
+body {
+    position: relative;
+    min-height: 100vh;
+    margin: 0;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("./images/Mapa\ do\ Arquipélago\ Atualizado.png");
+    background-size: cover;
+    background-position: center;
+    filter: blur(3px);
+    z-index: -1;
+}
+
+button#profileButton {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .1s;
+}
+
+#profileButton {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-right: 20px;
+}
+
+#profileLink {
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    margin-right: 20px;
+}
+
+main button {
+    position: fixed;
+    top: 120px;
+    right: 20px;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    transition: .2s;
+    margin-top: 20px;
+    justify-content: right;
+}
+
+main button:hover {
+    background-color: red;
+    transform: scale(1.05);
+    box-shadow: 0 0 16px red;
+}
+
+/* Resto do site */
+
+.step {
+    opacity: 0;
+    display: none;
+    transition: opacity 0.3s ease, max-height 0.5 ease;
+}
+
+.step.active {
+    display: block;
+    opacity: 1;
+    max-height: 1000px;
+}
+
+/* ========================= */
+/* ======== RAÇA ========= */
+/* ========================= */
+
+.race-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 800px;
+    margin: 0 auto; 
+    padding: 20px;
+    align-items: center; 
+    text-align: left; 
+}
+
+.race {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    font-size: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: .2s;
+}
+
+.race .info {
+    display: none;
+    margin-left: 10px;
+}
+
+.race .info.active {
+    display: block;
+}
+
+button.toggle-info {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+button.select-race {
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    margin-left: auto; 
+    align-self: flex-end; 
+    transition: .2s;
+}
+
+button.select-race:hover {
+    background-color: red;
+}
+
+
+
+
+/* ========================= */
+/* ======== CLASSE ========= */
+/* ========================= */
+
+.class-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 800px;
+    margin: 0 auto; 
+    padding: 20px;
+    align-items: center; 
+    text-align: left; 
+}
+
+.class {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    font-size: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: .2s;
+}
+
+.class:hover {
+    background-color: red;
+    transform: scale(1.05);
+    box-shadow: 0 0 16px red;
+}
+
+.class .info {
+    display: none;
+    margin-left: 10px;
+}
+
+.class .info.active {
+    display: block;
+}
+
+button.select-class {
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    margin-left: auto; 
+    align-self: flex-end; 
+    transition: .2s;
+}
+
+button.select-class:hover {
+    background-color: red;
+    transform: scale(1.05);
+}
+
+.class-content{
+    font-size: 16px;
+}
+
+.class-content span{
+    font-weight: 700;
+}
+
+
+/* ========================= */
+/* ======== ORIGEM ========= */
+/* ========================= */
+
+.origin-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 800px;
+    margin: 0 auto; 
+    padding: 20px;
+    align-items: center; 
+    text-align: left; 
+}
+
+.origin {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    font-size: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: .2s;
+}
+
+.origin:hover {
+    background-color: red;
+    transform: scale(1.05);
+    box-shadow: 0 0 16px red;
+}
+
+.origin .info {
+    display: none;
+    margin-left: 10px;
+}
+
+.origin .info.active {
+    display: block;
+}
+
+button.select-origin {
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    margin-left: auto; 
+    align-self: flex-end;
+    transition: .2s; 
+}
+
+button.select-origin:hover {
+    background-color: red;
+    transform: scale(1.05);
+}
+
+.origin-content{
+    font-size: 16px;
+}
+
+.origin-content span{
+    font-weight: 700;
+}
+
+/* ========================= */
+/* ====== ARKAMINO ========= */
+/* ========================= */
+
+.arkamino-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 800px;
+    margin: 0 auto; 
+    padding: 20px;
+    align-items: center; 
+    text-align: left; 
+}
+
+.arkamino {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    font-size: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: .2s;
+}
+
+.arkamino:hover {
+    background-color: red;
+    transform: scale(1.05);
+    box-shadow: 0 0 16px red;
+}
+
+.arkamino .info {
+    display: none;
+    margin-left: 10px;
+}
+
+.arkamino .info.active {
+    display: block;
+}
+
+button.select-arkamino {
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    margin-left: auto; 
+    align-self: flex-end; 
+    transition: .2s;
+}
+
+button.select-arkamino:hover {
+    background-color: red;
+    transform: scale(1.05);
+}
+
+.arkamino-content{
+    font-size: 16px;
+}
+
+.arkamino-content span{
+    font-weight: 700;
+}
+
+
+
+
+
+
+/* Identidade */
+
+#identidade{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#identidade .wrapper{
+    width: 100%;
+    max-width: 420px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(255, 255, 255, .3);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+    color: white;
+    border-radius: 10px;
+    padding: 30px 40px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.wrapper h1{
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.inputbox{
+    position: relative;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.inputbox input,
+.inputbox textarea{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0 0 0;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 40px;
+    background: transparent;
+    color: white;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.inputbox input::placeholder,
+.inputbox textarea::placeholder{
+    color: white;
+}
+
+.btn{
+    width: 100%;
+    height: 45px;
+    background: black;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: white;
+    font-weight: 600;
+    transition: transform .2s, background-color .2s, box-shadow .2s;
+    margin-top: 20px;
+}
+
+.btn:hover{
+    transform: scale(1.05);
+    background-color: red;
+    box-shadow: 0 0 32px red;
+}
+
+
+/* Seletores agrupados para race, classe, origem e arkamino */
+.race-button,
+.class-button,
+.origin-button,
+.arkamino-button {
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: rgb(26, 26, 26);
+    width: 100%;
+    max-width: 600px; 
+    text-align: left; 
+}
+
+/* Seletores agrupados para headers */
+.race-header,
+.class-header,
+.origin-header,
+.arkamino-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+    color: white;
+}
+
+/* Seletores agrupados para nomes */
+.race-name,
+.class-name,
+.origin-name,
+.arkamino-name {
+    font-size: 19px;
+    font-weight: 400; /* Ajustado para normal */
+    font-family: "Special Elite", serif;
+    font-style: normal;
+}
+
+/* Seletores agrupados para ícones de expansão */
+.expand-icon,
+.class-expand-icon,
+.origin-expand-icon,
+.arkamino-expand-icon {
+    transition: transform 0.3s ease;
+}
+
+/* Rotaciona o ícone quando ativo */
+.race-button.active .expand-icon,
+.class-button.active .class-expand-icon,
+.origin-button.active .origin-expand-icon,
+.arkamino-button.active .arkamino-expand-icon {
+    transform: rotate(180deg);
+}
+
+
+/* Estilos para o botão de seleção */
+.select-race,
+.select-second-race,
+.select-class,
+.select-origin,
+.select-arkamino {
+    display: block;
+    margin: 10px auto 0; 
+    padding: 10px 20px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: "Special Elite", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px; 
+    transition: .2s;
+}
+
+
+/* Estilos Gerais para .race-button */
+
+/* Estilos para o cabeçalho da raça */
+.race-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+    color: white;
+}
+
+.race-name {
+    font-size: 19px;
+    font-weight: 400; 
+    font-family: "Special Elite", serif;
+    font-style: normal;
+}
+
+.expand-icon {
+    font-size: 1em;
+    transition: transform 0.3s ease;
+}
+
+/* Rotaciona o ícone quando ativo */
+.race-button.active .expand-icon {
+    transform: rotate(180deg);
+}
+
+
+.race-button.active .race-content {
+    display: block;
+}
+
+/* Animação para o conteúdo */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Estilos para o botão de seleção da raça */
+.select-race {
+    display: block;
+    margin: 10px auto 0; 
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: "Special Elite", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px; 
+    transition: .2s;
+}
+
+.select-race:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+    box-shadow: 0 0 16px red;
+}
+
+.race-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+    color: white;
+}
+
+.race-name {
+    font-size: 19px;
+    font-weight: 400; 
+    font-family: "Special Elite", serif;
+    font-style: normal;
+}
+
+.expand-icon {
+    transition: transform 0.3s ease;
+}
+
+
+.race-button.active .expand-icon {
+    transform: rotate(180deg);
+}
+
+.race-description {
+    margin-bottom: 20px;
+}
+
+h1{
+    color: white;
+    margin-top: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-size: 35px;
+    font-family: "Special Elite", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h1 span{
+    color: white;
+    font-family: "Special Elite", serif;
+  font-weight: 400;
+  font-style: normal;
+    
+}
+
+
+#raca2 {
+    display: none; 
+}
+
+#raca2.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+.race-checkbox {
+    margin-top: 20px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+}
+
+.race-checkbox input[type="checkbox"] {
+     width: 20px;
+     height: 20px;
+    accent-color: #4CAF50;
+}
+
+    .race-checkbox label {
+        margin-left: 10px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+/* Estilos Comuns para Todas as Seções de Conteúdo */
+.race-content,
+.class-content,
+.origin-content,
+.arkamino-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+    opacity: 0;
+    font-size: 16px;
+    color: white;
+    background-color: rgb(26, 26, 26);;
+    padding: 0 10px;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+}
+
+.race-button.active .race-content,
+.class-button.active .class-content,
+.origin-button.active .origin-content,
+.arkamino-button.active .arkamino-content {
+    max-height: 1000px; 
+    opacity: 1;
+    transition: max-height 0.5s ease-in, opacity 0.5s ease-in;
+}
+
+/* Botões de Seleção Comuns */
+.select-race,
+.select-class,
+.select-origin,
+.select-arkamino {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    font-size: 15px;
+    font-weight: 700px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    margin-top: 10px;
+    align-self: flex-start; 
+    padding: 8px 12px;
+}
+
+.race-button.active .select-race,
+.class-button.active .select-class,
+.origin-button.active .select-origin,
+.arkamino-button.active .select-arkamino {
+    opacity: 1;
+    visibility: visible;
+}
+
+.select-race:hover,
+.select-class:hover,
+.select-origin:hover,
+.select-arkamino:hover {
+    background-color: red;
+}
+
+/* Estilos para Headers */
+.race-header,
+.class-header,
+.origin-header,
+.arkamino-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Estilos para o Ícone de Toggle */
+.toggle-info {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.race-button.active .toggle-info,
+.class-button.active .toggle-info,
+.origin-button.active .toggle-info,
+.arkamino-button.active .toggle-info {
+    transform: rotate(180deg);
+}
+
+/* Estilos para Checkbox */
+.race-checkbox {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.race-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #4CAF50;
+    transition: transform 0.2s ease;
+}
+
+.race-checkbox input[type="checkbox"]:hover {
+    transform: scale(1.1);
+}
+
+/* Estilizar Listas Dentro das Seções */
+.race-content ul,
+.class-content ul,
+.origin-content ul,
+.arkamino-content ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.race-content li,
+.class-content li,
+.origin-content li,
+.arkamino-content li {
+    margin-bottom: 10px;
+}
+
+
+
+#raca2 .race-button{
+    width: 600px;
+    max-width: 600px;
+}
+
+.raca-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+}
+
+
+/* Estilos para o Header */
+.race-header,
+.class-header,
+.origin-header,
+.arkamino-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Estilos para o Ícone de Toggle */
+.toggle-info {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.race-button.active .toggle-info,
+.class-button.active .toggle-info,
+.origin-button.active .toggle-info,
+.arkamino-button.active .toggle-info {
+    transform: rotate(180deg);
+}
+
+
+.race-content span{
+    font-weight: 700;
+}
+
+.class-content span{
+    font-weight: 700;
+}
+
+.origin-content span{
+    font-weight: 700;
+}
+
+.arkamino-content span{
+    font-weight: 700;
+}
+
+
+.select-second-race{
+    font-weight: 700;
+    background-color: black;
+    transition: .2s;
+}
+
+.select-second-race:hover{
+    background-color: red;
+    transform: scale(1.05);
+}

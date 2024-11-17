@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bona+Nova+SC:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400..900&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Special+Elite&display=swap');
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Bona+Nova+SC:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
+    <title>Registro - História dos Selos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" type="image/png" href="/icon/Selo de Ydra icon.png">
+</head>
+<body>
+    <div class="wrapper">
+        <form id="registrarForm">
+            <h1>Registrar</h1>
+            <div class="inputbox">
+                <input type="text" name="username" placeholder="Nome de usuário" required>
+                <i class="bi bi-envelope-at-fill"></i>
+            </div>
+            <div class="inputbox">
+                <input type="email" name="email" placeholder="E-mail" required>
+                <i class="bi bi-envelope-at-fill"></i>
+            </div>
+            <div class="inputbox">
+                <input type="password" name="senha" placeholder="Senha" required>
+                <i class="bi bi-lock-fill"></i>
+            </div>
+            <div class="inputbox">
+                <input type="password" name="confirmaSenha" placeholder="Confirmar Senha" required>
+                <i class="bi bi-lock-fill"></i>
+            </div>
+
+            <div id="erroMsg">Senhas não coincidem. Tente novamente.</div>
+
+
+            <button type="submit" class="btn">Criar conta</button>
+
+            <div class="registro">
+                <p>Já tem uma conta? <a href="/Login">Entrar</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+</html>

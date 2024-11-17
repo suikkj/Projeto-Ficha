@@ -1,0 +1,140 @@
+*{
+  font-family: "EB Garamond", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  header{
+    background-color: black;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 10px 0;
+  }
+  
+  .container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .logo{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .perfilusuario{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  .menu{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .menu nav{
+    display: flex;
+    gap: 30px;
+    align-items: center;
+  }
+  
+  .menu nav a{
+    color: white;
+    text-decoration: none;
+    font-size: 23px;
+    transition: .1s;
+  }
+  
+  .menu nav a:hover{
+    color: red;
+    text-decoration: none;
+    font-size: 20px;
+    transform: scale(1.05);
+    text-decoration: underline;
+  }
+  
+  body {
+    position: relative;
+    min-height: 100vh;
+    margin: 0;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("./images/Mapa\ do\ Arquipélago\ Atualizado.png");
+    background-size: cover;
+    background-position: center;
+    filter: blur(3px);
+    z-index: -1;
+}
+  
+  button#profileButton{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    margin-right: 15px;
+  }
+  
+  #profileButton{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-right: 20px;
+  }
+  
+  #profileLink{
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    margin-right: 20px;
+  }
+
+  main button{
+    position: fixed;
+    top: 120px;
+    right: 20px;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor:pointer;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    transition: .2s;
+    margin-top: 20px;
+    justify-content:right;
+  }
+
+  main button:hover{
+    background-color: red;
+    transform: scale(1.05);
+    box-shadow: 0 0 16px red;
+  }
