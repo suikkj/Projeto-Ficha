@@ -637,11 +637,6 @@ button.select-arkamino:hover {
     transform: rotate(180deg);
 }
 
-
-.race-button.active .race-content {
-    display: block;
-}
-
 /* Animação para o conteúdo */
 @keyframes fadeIn {
     from { opacity: 0; }
@@ -754,33 +749,27 @@ h1 span{
         cursor: pointer;
     }
 
-/* Estilos Comuns para Todas as Seções de Conteúdo */
-.race-content,
+    .race-content,
 .class-content,
 .origin-content,
 .arkamino-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
     opacity: 0;
-    font-size: 16px;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
     color: white;
-    background-color: rgb(26, 26, 26);;
-    padding: 0 10px;
-    border-radius: 0 0 5px 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin-top: 10px;
 }
 
-.race-button.active .race-content,
-.class-button.active .class-content,
-.origin-button.active .origin-content,
-.arkamino-button.active .arkamino-content {
-    max-height: 1000px; 
+/* Exibe o conteúdo quando .active é aplicado */
+.race-content.active,
+.class-content.active,
+.origin-content.active,
+.arkamino-content.active {
+    max-height: 1000px;
     opacity: 1;
-    transition: max-height 0.5s ease-in, opacity 0.5s ease-in;
+    color: white;
 }
-
+    
 /* Botões de Seleção Comuns */
 .select-race,
 .select-class,
@@ -875,7 +864,6 @@ h1 span{
 .arkamino-content li {
     margin-bottom: 10px;
 }
-
 
 
 #raca2 .race-button{

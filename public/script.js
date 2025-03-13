@@ -97,7 +97,7 @@ document.getElementById('uploadProfilePictureForm')?.addEventListener('submit', 
     event.preventDefault();
     const fileInput = document.getElementById('uploadFotodePerfil');
     const file = fileInput.files[0];
-    console.log('Arquivo selecionado no submit event:', file); // Adicione este log para depuração
+    console.log('Arquivo selecionado no submit event:', file);
     if (!file) {
         alert('Por favor, selecione um arquivo.');
         return;
@@ -132,14 +132,14 @@ document.getElementById('uploadProfilePictureForm')?.addEventListener('submit', 
 
         setTimeout(() => {
             messageDiv.style.display = 'none';
-            wrapper.style.height = `${wrapper.offsetHeight - 50}px`; // Retornar a altura original
+            wrapper.style.height = `${wrapper.offsetHeight - 50}px`;
         }, 5000);
     }
 });
 
 document.getElementById('uploadFotodePerfil')?.addEventListener('change', (event) => {
     const file = event.target.files[0];
-    console.log('Arquivo selecionado no change event:', file); // Adicione este log para depuração
+    console.log('Arquivo selecionado no change event:', file);
     if (!file.type.startsWith('image/')) {
         alert('Por favor, selecione um arquivo de imagem.');
         return;
@@ -156,7 +156,6 @@ document.getElementById('uploadFotodePerfil')?.addEventListener('change', (event
     reader.readAsDataURL(file);
 });
 
-// Exibir Nome de Usuario Atual e Formulário de Edição
 
 document.getElementById('editUsernameBtn')?.addEventListener('click', () => {
     const wrapper = document.querySelector('.wrapper');
@@ -170,7 +169,6 @@ document.getElementById('username')?.addEventListener('input', () => {
     document.querySelector('#updateUsernameForm .btn').style.display = 'block';
 });
 
-// Exibir Email Atual e Formulário de Edição
 
 document.getElementById('editEmailBtn')?.addEventListener('click', () => {
     const wrapper = document.querySelector('.wrapper');
@@ -184,7 +182,6 @@ document.getElementById('email')?.addEventListener('input', () => {
     document.querySelector('#updateEmailForm .btn').style.display = 'block';
 });
 
-// Atualização Foto outras partes site
 
 window.addEventListener('load', async () => {
     const response = await fetch('/usuario_atual');
@@ -206,7 +203,6 @@ window.addEventListener('load', async () => {
 
 console.log('Cookies:', document.cookie);
 
-// Função para carregar a foto de perfil em todas as páginas
 window.addEventListener('load', async () => {
     try{
     const response = await fetch('/usuario_atual');
@@ -242,10 +238,8 @@ window.addEventListener('load', async () => {
 }
 });
 
-// Chamar a função ao carregar a página
 window.addEventListener('load', carregarDadosUsuario);
 
-// Menu da foto de perfil
 document.getElementById('profileButton')?.addEventListener('click', () => {
     document.getElementById('uploadFotodePerfil').click();
 });
@@ -286,21 +280,27 @@ profileButton?.addEventListener('click', () => {
 
 
 
-// Botão criação de fichas
 
 document.getElementById('nova_ficha')?.addEventListener('click', () => {
     window.location.href = '/nova_ficha';
 });
 
 
-const ficha = {
+let ficha = {
     primeiraRaca: '',
-    segundaRaca: '',
     classe: '',
     origem: '',
     arkamino: '',
-    identidade: {}
 };
+
+function resetFicha(){
+    ficha = {
+        primeiraRaca: '',
+        classe: '',
+        origem: '',
+        arkamino: '',
+    };
+}
 
 let currentStep = 0;
 
@@ -322,6 +322,30 @@ function coletarDadosPasso(chave, valor){
     console.log(`Dados da ficha atualizados: ${chave} = ${valor}`);
 }
 
+async function enviarFicha(){
+    try{
+        const response = await fetch('/salvarFicha', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(ficha),
+            credentials: 'include',
+        });
+
+        if(!response.ok){
+            const erroMsg = await response.text();
+            throw new Error(`Erro: ${erroMsg}`);
+        }
+
+        const result = await response.json();
+        console.log('Ficha completa salva no servidor:', result);
+
+        window.location.href = `/ficha/${result.fichaId}`;
+    } catch(error){
+        console.error('Erro ao salvar a ficha:', error);
+        alert('Erro ao salvar a ficha. Tente novamente.');
+    }
+}
+
 async function enviarDados(url,dado,tipo){
     try{
         const response = await fetch(url, {
@@ -337,7 +361,11 @@ async function enviarDados(url,dado,tipo){
 
         const result = await response.json();
         console.log(`${tipo} salvo no servidor:`, result);
-        proximoPasso();
+        if(tipo === 'arkamino'){
+            await enviarFicha();
+        } else{
+            proximoPasso();
+        }
     } catch(error){
         console.error(`Erro ao enviar ${tipo}:`, error);
     }
@@ -365,7 +393,7 @@ async function carregarDadosUsuario(){
             if(currentUsernameElement){
                 currentUsernameElement.textContent = data.username;
             } else{
-                console.error('Elemento com ID "currentUsername não encontrado.');
+                console.error('Elemento com ID "currentUsername" não encontrado.');
             }
 
             if(currentEmailElement){
@@ -435,67 +463,7 @@ let selectedArkamino = '';
 
 document.addEventListener('DOMContentLoaded', function() {
     carregarDadosUsuario();
-    const toggleButtons = document.querySelectorAll('.race-button, .class-button, .origin-button, .arkamino-button');
-
-    toggleButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            toggleButtons.forEach(btn => {
-                if(btn !== button){
-                    btn.classList.remove('active');
-                }
-            })
-
-            button.classList.toggle('active');
-        })
-    })
-
-    const selectButtons = document.querySelectorAll('.select-race, .select-second-race, .select-class, .select-origin, .select-arkamino');
-    
-    selectButtons.forEach(button => {
-        button.addEventListener('click', (event) => {
-            event.stopPropagation();
-
-            const parentButton = button.closest('.race-button, .class-button, .origin-button, .arkamino-button');
-            let selectedValue = null;
-            let passo = '';
-
-            if(button.classList.contains('select-race')){
-                selectedValue = parentButton.getAttribute('data-race');
-                passo = 'primeiraRaca';
-                enviarDados('/salvarRaca', selectedValue, 'raca');
-
-            } else if (button.classList.contains('select-second-race')){
-                selectedValue = parentButton.getAttribute('data-race');
-                passo = 'segundaRaca';
-                coletarDadosPasso(passo, selectedValue);
-                proximoPasso();
-
-            } else if(button.classList.contains('select-class')){
-                selectedValue = parentButton.getAttribute('data-classe');
-                passo = 'classe';
-                enviarDados('/salvarClasse', selectedValue, 'classe');
-
-            } else if(button.classList.contains('select-origin')){
-                selectedValue = parentButton.getAttribute('data-origem');
-                passo = 'origem';
-                enviarDados('/salvarOrigem', selectedValue, 'origem');
-
-            } else if(button.classList.contains('select-arkamino')){
-                selectedValue = parentButton.getAttribute('data-arkamino');
-                passo = 'arkamino';
-                enviarDados('/salvarArkamino', selectedValue, 'arkamino');
-            }
-
-            if(selectedValue){
-                coletarDadosPasso(passo, selectedValue);
-                console.log(`Seleção: ${passo} = ${selectedValue}`);
-            } else{
-                console.error('Seleção é undefined.');
-            }
-        });
-    });
-
-
+    console.log('DOM carregada para toggle-info');
 
     const Urlfotoperfil = localStorage.getItem('fotoPerfil');
     if (Urlfotoperfil) {
@@ -504,118 +472,215 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('profileLink').style.backgroundImage = `url(${Urlfotoperfil})`;
     }
 
+    initToggleButtons('.race-button', '.race-content');
+    initToggleButtons('.class-button', '.class-content');
+    initToggleButtons('.origin-button', '.origin-content');
+    initToggleButtons('.arkamino-button', '.arkamino-content');
 
-    async function enviarFicha(){
-        try{
-            ficha.id = gerarIdUnico();
-            const response = await fetch('/salvarFicha', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(ficha),
-                credentials: 'include',
-            });
-
-            if(!response.ok){
-                const erroMsg = await response.text();
-                throw new Error(`Erro: ${erroMsg}`);
-            }
-
-            const result = await response.json();
-            console.log('Ficha completa salva no servidor:', result);
-
-            window.location.href = `ficha/${result.fichaId}`;
-        } catch(error){
-            console.error('Erro ao salvar a ficha:', error);
-            alert('Erro ao salvar a ficha. Tente novamente.');
-        }
+    
+    const deleteIcons = document.querySelectorAll('.delete-icon');
+    
+    
+    const modal = document.getElementById('modalConfirmDelete');
+    let closeButton, cancelButton, deleteForm;
+    if (modal) {
+        closeButton = modal.querySelector('.close-button');
+        cancelButton = document.getElementById('cancelButton');
+        deleteForm = document.getElementById('deleteForm');
+    } else {
+        console.warn('Elemento modalConfirmDelete não encontrado.');
     }
 
+    function initToggleButtons(buttonSelector, contentSelector) {
+        const buttons = document.querySelectorAll(buttonSelector);
+        buttons.forEach(button => {
+            button.addEventListener('click', (event) => {
+               
+                buttons.forEach(b => {
+                    if (b !== button) {
+                        b.classList.remove('active');
+                        let content = b.querySelector(contentSelector);
+                        
+                        if (!content) {
+                            content = b.nextElementSibling;
+                        }
+                        if (content && content.matches(contentSelector)) {
+                            content.classList.remove('active');
+                        }
+                    }
+                });
+                
+                button.classList.toggle('active');
+                let content = button.querySelector(contentSelector);
+                if (!content) {
+                    content = button.nextElementSibling;
+                }
+                if (content && content.matches(contentSelector)) {
+                    content.classList.toggle('active', button.classList.contains('active'));
+                }
+            });
+        });
+    }
+    
+    function initSelectButtonsToActivateStep(buttonSelector, targetStepIndex) {
+        const buttons = document.querySelectorAll(buttonSelector);
+        const steps = document.querySelectorAll('.step');
+    
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                steps.forEach((step, index) => {
+                    step.classList.toggle('active', index === targetStepIndex);
+                });
+            });
+        });
+    }
+    
+    initSelectButtonsToActivateStep('.select-race', 1);
+    initSelectButtonsToActivateStep('.select-class', 2);
+    initSelectButtonsToActivateStep('.select-origin', 3);
+    initSelectButtonsToActivateStep('.select-arkamino', 4);
+    
 
-
-    // Função para selecionar a raça
     function selecionarRaca(raca) {
         console.log("Raça selecionada:", raca);
         ficha.race = raca;
-        // Implemente a lógica adicional, se necessário
     }
 
-    // Função para selecionar a classe
     function selecionarClasse(classe) {
         console.log("Classe selecionada:", classe);
         ficha.class = classe;
-        // Implemente a lógica adicional, se necessário
+        
     }
 
-    // Função para selecionar a origem
     function selecionarOrigem(origem) {
         console.log("Origem selecionada:", origem);
         ficha.origem = origem;
-        // Implemente a lógica adicional, se necessário
     }
 
-    // Função para selecionar o arkamino
     function selecionarArkamino(arkamino) {
         console.log("Arkamino selecionado:", arkamino);
         ficha.arkamino = arkamino;
-        // Implemente a lógica adicional, se necessário
+    }
+    const sections = [{
+        name: 'race',
+        className: 'race',
+        dataAttr: 'data-primeira-raca',
+        fichaKey: 'primeiraRaca',
+        url: '/salvarRaca',
+        tipo: 'raca',
+        selectButtonClass: '.select-race'
+    },
+    {
+        name: 'secondRace',
+        className: 'race',
+        dataAttr: 'data-segundaRaca',
+        fichaKey: 'segundaRaca',
+        url: '',
+        tipo: '',
+        selectButtonClass: '.select-second-race'
+    },
+    {
+        name: 'classe',
+        className: 'class',
+        dataAttr: 'data-class',
+        fichaKey: 'classe',
+        url: '/salvarClasse',
+        tipo: 'classe',
+        selectButtonClass: '.select-class'
+    },
+    {
+        name: 'origin',
+        className: 'origin',
+        dataAttr: 'data-origin',
+        fichaKey: 'origem',
+        url: '/salvarOrigem',
+        tipo: 'origem',
+        selectButtonClass: '.select-origin'
+    },
+    {
+        name: 'arkamino',
+        className: 'arkamino',
+        dataAttr: 'data-arkamino',
+        fichaKey: 'arkamino',
+        url: '/salvarArkamino',
+        tipo: 'arkamino',
+        selectButtonClass: '.select-arkamino'
+    }
+];
+
+showStep(currentStep);
+
+// ----------------------------------------------------------------------------------------------------
+function initSelectionFlow() {
+    sections.forEach((section) => {
+        const buttons = document.querySelectorAll(section.selectButtonClass);
+        buttons.forEach(button => {
+            button.addEventListener('click', async () => {
+                const value = button.getAttribute(section.dataAttr);
+
+                // Salva diretamente no objeto ficha:
+                ficha[section.fichaKey] = value;
+                console.log(`${section.fichaKey} selecionado:`, value);
+
+                // Se for o último passo (arkamino), salva a ficha final e redireciona
+                if (section.tipo === 'arkamino') {
+                    try {
+                        const response = await fetch('/salvarFicha', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(ficha),
+                            credentials: 'include',
+                        });
+
+                        if (!response.ok) {
+                            const erroMsg = await response.text();
+                            throw new Error(`Erro: ${erroMsg}`);
+                        }
+
+                        const result = await response.json();
+                        console.log('Ficha completa salva no servidor:', result);
+                        // Redireciona para a página da ficha com o ID único
+                        window.location.href = `/ficha/${result.fichaId}`;
+                    } catch (error) {
+                        console.error('Erro ao salvar a ficha:', error);
+                        alert('Erro ao salvar a ficha. Tente novamente.');
+                    }
+                } else {
+                    // Senão, apenas avança para o próximo passo
+                    proximoPasso();
+                }
+            });
+        });
+    });
+}
+
+// 2. Inicializa o fluxo que escreve no objeto ficha assim que selecionar algo:
+initSelectionFlow();
+// ----------------------------------------------------------------------------------------------------
+document.getElementById('identidadeForm')?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    console.log('Identidade form submitted');
+
+    const nomePersonagem = document.getElementById('nomePersonagem').value.trim();
+    const nomeJogador = document.getElementById('nomeJogador').value.trim();
+    const descricao = document.getElementById('descricao').value.trim();
+
+    if (!nomePersonagem || !nomeJogador || !descricao) {
+        alert('Preencha todas as informações da identidade.');
+        return;
     }
 
-    // Função para enviar dados ao servidor
-    // Event listeners para as seções
-    const sections = [
-        {
-            name: 'race',
-            className: 'race',
-            dataAttr: 'data-primeira-raca',
-            fichaKey: 'primeiraRaca',
-            url: '/salvarRaca',
-            tipo: 'raca',
-            selectButtonClass: '.select-race'
-        },
-        {
-            name: 'secondRace',
-            className: 'race',
-            dataAttr: 'data-segundaRaca',
-            fichaKey: 'segundaRaca',
-            url: '',
-            tipo: '',
-            selectButtonClass: '.select-second-race'
-        },
-        {
-            name: 'classe',
-            className: 'class',
-            dataAttr: 'data-class',
-            fichaKey: 'classe',
-            url: '/salvarClasse',
-            tipo: 'classe',
-            selectButtonClass: '.select-class'
-        },
-        {
-            name: 'origin',
-            className: 'origin',
-            dataAttr: 'data-origin',
-            fichaKey: 'origem',
-            url: '/salvarOrigem',
-            tipo: 'origem',
-            selectButtonClass: '.select-origin'
-        },
-        {
-            name: 'arkamino',
-            className: 'arkamino',
-            dataAttr: 'data-arkamino',
-            fichaKey: 'arkamino',
-            url: '/salvarArkamino',
-            tipo: 'arkamino',
-            selectButtonClass: '.select-arkamino'
-        }
-    ];
+    coletarDadosPasso('identidade', {
+        nomePersonagem,
+        nomeJogador,
+        descricao
+    });
+    await enviarFicha();
+});
 
-    
 
-    // Inicializar o passo inicial
-    showStep(currentStep);
-
-    // Função para salvar a identidade
     document.getElementById('identidadeForm')?.addEventListener('submit', async (event) => {
         event.preventDefault();
         console.log('Identidade form submitted');
@@ -657,8 +722,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-
-    // Função para carregar dados do usuário
     async function carregarFotoPerfil(){
         try{
             const response = await fetch('/usuario_atual');
@@ -693,30 +756,74 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('email')?.addEventListener('input', () => {
         document.querySelector('#updateEmailForm .btn').style.display = 'block';
     });
-
-    // Função para alternar seções
  
-    document.getElementById('nova_ficha')?.addEventListener('click', () => {
-        window.location.href = '/nova_ficha';
+    window.addEventListener('load', async () => {
+        try{
+            const response = await fetch('/usuario_atual');
+            const data = await response.json();
+        } catch(error){
+            console.error('Erro ao carregar dados do usuário:', error);
+        }
     });
 
+    deleteIcons.forEach(icon => {
+        icon.addEventListener('click', function(event){
+            event.stopPropagation();
+            const fichaId = this.getAttribute('data-ficha-id');
+            deleteForm.action = `/fichas/delete/${fichaId}`;
+            modal.style.display = 'block';
+        });
+    });
 
-});
+    deleteForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const fichaId = deleteForm.action.split('/').pop();
+        try {
+            const response = await fetch(`/fichas/delete/${fichaId}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Erro: ${response.status} ${response.statusText}`);
+            }
+    
+            console.log(`Ficha ${fichaId} deletada com sucesso.`);
+    
+            modal.style.display = 'none';
+    
+            const fichaElement = document.getElementById(`ficha-${fichaId}`);
+            if(fichaElement) {
+                fichaElement.remove();
+            } else {
+                window.location.reload();
+            }
+        } catch (error) {
+            console.error('Erro ao deletar a ficha:', error);
+            alert('Erro ao deletar a ficha. Tente novamente.');
+        }
+    });
 
+    closeButton.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
 
-//Multiraça
+    cancelButton.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
 
+    window.addEventListener('click', function(event){
+        if(event.target == modal){
+            modal.style.display = 'none';
+        }
+    });
+    
 
+  });
 
-//Salvar ficha
-
-// script.js
 
 console.log('script.js carregado');
 
-// Variáveis Globais
-
-// Função para exibir o passo atual
 function showStep(index) {
     const steps = document.querySelectorAll('.step');
     steps.forEach((step, i) => {
@@ -725,15 +832,6 @@ function showStep(index) {
     console.log(`Exibindo passo: ${index}`);
 }
 
-
-// Função para alternar a exibição das seções
-
-// Função para enviar dados ao servidor
-
-
-
-
-// Funções de envio
 async function enviarRaca(raca) {
     try {
         const response = await fetch('/salvarRaca', {
@@ -822,14 +920,10 @@ async function enviarArkamino(arkamino) {
         }
     }
 
-// Função para alternar a exibição das informações com animação
-
-// script.js
-
 //---------------------------------------- Códigos para fichas ----------------------------------------\\
 
 
-const {v4: uuidv4} = require('uuid');
+
 
 function gerarIdUnico(){
     return uuidv4();

@@ -85,6 +85,13 @@ header .perfilusuario{
     border-radius: 50%;
     overflow: hidden;
     position: relative;
+    transition: .2s;
+}
+
+#profileLink:hover{
+    transform: scale(1.05);
+    box-shadow: 0 0 16px red;
+    color:#f3c018
 }
 
 #profileButton{
@@ -97,7 +104,7 @@ header .perfilusuario{
     cursor: pointer;
     background-color: black;
     color: white;
-    transition: .1s;
+    transition: .2s;
 }
 
 #profileButton:hover{
@@ -114,7 +121,7 @@ button.edit-button .bi,
 button.confirm-button .bi,
 button.rolar-button .bi {
     color: white;
-    font-size: 1.5rem; 
+    font-size: 20px; 
 }
 
 /* Opcional: Estilizar os botões */
@@ -140,7 +147,7 @@ button.rolar-button:hover .bi {
 
 button.edit-button .bi{
     color: white;
-    font-size: 1.5rem;
+    font-size: 20px;
 }
 
 
@@ -183,10 +190,85 @@ select{
 }
 
 .icone-personagem button:hover{
-    background-color: red;
+    background-color: rgb(255, 187, 0);
     transform: scale(1.05);
-    box-shadow: 0 0 16px red;
+    box-shadow: 0 0 16px rgb(216, 148, 0);
+    color: black;
 }
+
+.cropper-container,
+.cropper-crop-box,
+.cropper-view-box {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#cropper-modal {
+    display: none; /* Será alternado via JS */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(255, 0, 0, 0.5);
+}
+
+#cropper-modal .modal-content {
+    background-color: #ff0000;
+    color: #fff;
+    padding: 20px; /* Diminui o padding */
+    border-radius: 10px;
+    width: 600px;
+    max-width: 700px;
+    height: 500px;
+    margin: 5% auto;
+    position: relative;
+    text-align: center;
+}
+
+#cropper-modal .close-button {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 28px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+#cropper-modal #cropper-image {
+    margin-top: 20px;
+    max-width: 100%;
+    max-height: 60vh; /* Limita a altura a 60% da viewport */
+    object-fit: contain; /* Faz com que a imagem se ajuste sem cortar */
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: block;
+    margin: 0 auto; /* Remove espaços extra ao redor */
+    max-width: 100%;
+}
+
+#cropper-modal #cropper-confirm-btn {
+    background-color: rgb(255, 196, 0);
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#cropper-modal #cropper-confirm-btn:hover {
+    background-color: #e5b700;
+    transform: scale(1.05);
+}
+
 
 .dados-personagem input{
     height: 30px;
@@ -302,7 +384,7 @@ section h3{
 
 /* Opcional: Aumentar a área clicável do botão */
 #edit-info-button .bi {
-    font-size: 1.5rem;
+    font-size: 20px;
     color: white;
     transition: color 0.2s;
 }
@@ -334,19 +416,16 @@ section h3{
     color:white;
 }
 
-.barra-pontos{
+.barra-pontos {
     display: flex;
     align-items: center;
-    position: relative;
-    background-color: #ddd;
     height: 40px;
-    border-radius: 20px;
-    overflow: hidden;
     padding: 0 10px;
+    background-color: transparent;
 }
 
 .barra-pontos button{
-    background: none;
+    background: transparent;
     border: none;
     font-size: 24px;
     cursor: pointer;
@@ -368,30 +447,118 @@ section h3{
     justify-content: center;
 }
 
-#barra-pm{
+.barra-container {
+    position: relative;
+    flex: 1;
+    height: 40px;
+    background-color: #ddd;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 0 10px;
+}
+
+.barra-preenchida {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%; 
+    background-color: rgb(72, 202, 72);
+    transition: width 0.5s ease;
+}
+
+#barra-pm {
     background-color: rgb(0, 162, 255);
 }
 
-.valores-pontos{
-    display: flex;
-    align-items: center;
-    color: white;
-    font-size: 16px;
+/* Barras de PV (Vida) */
+.barra-verde {
+    background-color: rgb(6, 204, 6); 
 }
 
-.valores-pontos input{
+.barra-amarela {
+    background-color: rgb(221, 169, 0); 
+}
+
+.barra-vermelha {
+    background-color: rgb(204, 0, 0); 
+}
+
+.fundo-verde {
+    background-color: rgba(0, 100, 0, 0.8); 
+}
+
+.fundo-amarela {
+    background-color: rgba(206, 141, 0, 0.8); 
+}
+
+.fundo-vermelha {
+    background-color: rgba(139, 0, 0, 0.8); 
+}
+
+.barra-pm-verde {
+    background-color: rgb(0, 162, 255); 
+}
+
+.barra-pm-amarela {
+    background-color: rgb(0, 128, 255)
+}
+
+.barra-pm-vermelha {
+    background-color: rgb(0, 102, 204); 
+}
+
+
+.fundo-pm-verde {
+    background-color: rgba(0, 0, 128, 0.8); 
+}
+
+.fundo-pm-amarela {
+    background-color: rgba(0, 0, 160, 0.8); 
+}
+
+.fundo-pm-vermelho {
+    background-color: rgba(0, 0, 180, 0.8); 
+}
+
+/* Transições Suaves (Opcional) */
+.barra-preenchida, .fundo-verde, .fundo-amarelo, .fundo-vermelho, 
+.fundo-pm-verde, .fundo-pm-amarela, .fundo-pm-vermelho {
+    transition: background-color 0.5s ease, width 0.5s ease;
+}
+
+
+
+.valores-pontos {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 16px;
+    color: white;
+}
+
+.valores-pontos input {
     width: 50px;
     padding: 5px;
     background: transparent;
-    border: 1px solid #ccc;
+    font-family: "Nanum Myeongjo", serif;
+    border: none;
     color: white;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: 800;
     text-align: center;
 }
 
-.valores-pontos input:focus{
+.valores-pontos input #pv-atual,
+.valores-pontos input #pv-maximo{
+    color: red;
+} 
+
+.valores-pontos input:focus {
     outline: none;
-    border-color: #fff;
 }
 
 .valores-pontos input[type="number"]::-webkit-inner-spin-button,
@@ -421,22 +588,6 @@ section h3{
     color: white;
 }
 
-.valores-pontos{
-    position: absolute;
-    top: 0;
-    width: 100%;
-    text-align: center;
-    line-height: 30px;
-}
-
-.valores-pontos input{
-    width: 50px;
-    text-align: center;
-    border: none;
-    background: transparent;
-    font-size: 16px;
-    color: white;
-}
 
 
 .barra-preenchida{
@@ -604,6 +755,7 @@ section h3{
 
 }
 
+
 /* 5 */
 
 .pericias{
@@ -739,6 +891,10 @@ section h3{
     background-color: #666;
 }
 
+#etapas-habilidades li:hover{
+    background-color: #666;
+}
+
 #etapas-habilidades li.active,
 #respostas-habilidades li.active{
     background-color: rgb(255, 187, 0);
@@ -753,33 +909,78 @@ section h3{
 
 
 .habilidade-item{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #555;
-    margin: 5px 0;
+    border: 1px solid #666;
+    background-color: #1d1d1d;
     border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
 .habilidade-nome{
-    flex-grow: 1;
-    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.habilidade-nome i.bi{
+    margin-left: 5px;
+}
+
+.habilidade-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
 }
 
 .habilidade-add-button{
     background: none;
     border: none;
-    color: rgb(255, 187, 0);
+    color: rgb(255, 255, 255);
     font-size: 20px;
     cursor: pointer;
+    transition: .2s;
 }
 
 .habilidade-add-button:hover{
-    color: rgb(0, 162, 255);
+    color: rgb(255, 0, 0);
+    transform: scale(1.05);
 }
 
+.habilidade-descricao{
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease-out;
+    margin-top: 10px;    
+}
 
+#modal-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#voltar-button{
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color .2s;
+}
+
+#voltar-button:hover{
+    background-color: red;
+    box-shadow: 0 0 16px red;
+    color: white;
+    transform: scale(1.05); 
+
+}
 
 .acoes{
     background-color: rgba(0, 0, 0, 0.815);
@@ -840,6 +1041,21 @@ section h3{
 
 }
 
+.close-button{
+    color: red;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 
 #modal-habilidades li{
     border-radius: 10px;
@@ -894,6 +1110,111 @@ section h3{
 #lista-itens li{
     margin-bottom: 5px;
 }
+
+.toggle-container{
+    border: 1px solid #666;
+    background-color: #333;
+    margin-bottom: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+
+.habilidades-item{
+    border: 1px solid #666;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #333;
+    cursor: pointer;
+}
+
+.magias-item{
+    border: 1px solid #666;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #333;
+    cursor: pointer;
+}
+
+.itens-item{
+    border: 1px solid #666;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #333;
+    cursor: pointer;
+}
+
+.arkamino-item{
+    border: 1px solid #666;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #333;
+    cursor: pointer;
+}
+
+.habilidades-nome i{
+    margin-left: 10px;
+}
+
+
+habilidade-descricao {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.habilidade-descricao.active {
+    max-height: 500px; /* Ajuste conforme necessário */
+}
+
+/* Botão Lixeira */
+p{
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 50px;
+}
+
+#confirmDeleteBtn{
+    background-color: #444;
+    border: #666;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: .2s;
+    font-size: 24px;
+    margin-right: 20px;
+    border: none;
+}
+
+#confirmDeleteBtn:hover{
+    background-color: red;
+    transform: scale(1.05);
+    color:white;
+    box-shadow: 0 0 16px red;
+}
+
+#cancelDeleteBtn{
+    background-color: #444;
+    border: #666;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: .2s;
+    font-size: 24px;
+    border: none;
+}
+
+#cancelDeleteBtn:hover{
+    background-color: red;
+    transform: scale(1.05);
+    color:white;
+    box-shadow: 0 0 16px red;
+}
+
+
+
 
 
 /* Modal */
@@ -985,6 +1306,19 @@ section h3{
 .resposta-habilidade button:hover{
     background-color: #666;
 }
+
+#profileButton:hover{
+    transform: scale(1.05);
+}
+
+
+
+
+
+
+
+
+
 
 /* Responsividade */
 @media (max-width: 768px) {

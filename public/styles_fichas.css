@@ -1,140 +1,370 @@
+/* Estilos Gerais */
 *{
   font-family: "EB Garamond", serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  header{
-    background-color: black;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
-    padding: 10px 0;
-  }
-  
-  .container{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .logo{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-  }
-  
-  .perfilusuario{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  }
-  
-  .menu{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .menu nav{
-    display: flex;
-    gap: 30px;
-    align-items: center;
-  }
-  
-  .menu nav a{
-    color: white;
-    text-decoration: none;
-    font-size: 23px;
-    transition: .1s;
-  }
-  
-  .menu nav a:hover{
-    color: red;
-    text-decoration: none;
-    font-size: 20px;
-    transform: scale(1.05);
-    text-decoration: underline;
-  }
-  
-  body {
-    position: relative;
-    min-height: 100vh;
-    margin: 0;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header{
+  background-color: black;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 10px 0;
+}
+
+.container{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.perfilusuario{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.menu{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu nav{
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.menu nav a{
+  color: white;
+  text-decoration: none;
+  font-size: 23px;
+  transition: .1s;
+}
+
+.menu nav a:hover{
+  color: red;
+  text-decoration: none;
+  font-size: 20px;
+  transform: scale(1.05);
+  text-decoration: underline;
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  margin: 0;
 }
 
 body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("./images/Mapa\ do\ Arquipélago\ Atualizado.png");
-    background-size: cover;
-    background-position: center;
-    filter: blur(3px);
-    z-index: -1;
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("./images/Mapa\ do\ Arquipélago\ Atualizado.png");
+  background-size: cover;
+  background-position: center;
+  filter: blur(3px);
+  z-index: -1;
 }
-  
-  button#profileButton{
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-    margin-right: 15px;
-  }
-  
-  #profileButton{
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin-right: 20px;
-  }
-  
-  #profileLink{
-    display: block;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    overflow: hidden;
-    position: relative;
-    margin-right: 20px;
-  }
 
-  main button{
-    position: fixed;
-    top: 120px;
-    right: 20px;
-    padding: 10px 20px;
-    font-size: 20px;
-    cursor:pointer;
-    background-color: black;
-    color: white;
+button#profileButton{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+#profileButton{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+#profileLink{
+  display: block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  margin-right: 20px;
+}
+
+main{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Alinha os elementos à direita */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+main a{
+  margin-right: 0;
+}
+
+main button{
+  padding: 10px 20px;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  transition: .2s;
+}
+
+main button:hover{
+  background-color: red;
+  transform: scale(1.05);
+  box-shadow: 0 0 16px red;
+}
+
+/* Fichas */
+
+.fichas-list{
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.lista-fichas{
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 1200px; 
+  box-sizing: border-box;
+}
+
+.ficha-item{
+  position: relative;
+  width: 100%;
+  height: 300px; 
+  overflow: hidden;
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.ficha-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 8px rgb(0, 0, 0);
+}
+
+.ficha-link{
+  text-decoration: none;
+  color: inherit;
+}
+
+.foto-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.foto-personagem {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.info-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.678);
+  color: #fff;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.nome-personagem {
+  display: block;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.classe-personagem {
+  display: block;
+  font-size: 1em;
+  margin-top: 5px;
+}
+
+/* Estilização do Ícone de Exclusão */
+.delete-icon{
+  position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    color: white; 
+    font-weight: bold;
     border: none;
-    border-radius: 10px;
-    transition: .2s;
-    margin-top: 20px;
-    justify-content:right;
-  }
+    padding: 5px;
+    cursor: pointer;
+    font-size: 24px;
+    line-height: 1;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    z-index: 10;
+}
 
-  main button:hover{
-    background-color: red;
-    transform: scale(1.05);
-    box-shadow: 0 0 16px red;
+.delete-icon:hover{
+  box-shadow: none;
+  background-color: transparent;
+  transform: scale(1.05);
+  color: red;
+}
+
+
+.delete-icon .bi-trash {
+  font-size: 20px; 
+}
+
+
+/* Modal */
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #222222;
+  color: white;
+  margin: 15% auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 400px;
+  border-radius: 10px;
+  position: relative;
+  text-align: center;
+}
+
+.close-button {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+}
+
+.modal-content p {
+  margin: 20px 0;
+}
+
+.modal-content button {
+  padding: 10px 20px;
+  margin: 10px 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#cancelButton {
+  background-color: #ffffff;
+  color: black;
+}
+
+#cancelButton:hover {
+  background-color: #ffffff;
+}
+
+#deleteForm button[type="submit"] {
+  background-color: red;
+  color: #fff;
+}
+
+#deleteForm button[type="submit"]:hover {
+  background-color: rgb(197, 0, 0);
+}
+
+.race-content,
+.class-content,
+.origin-content,
+.arkamino-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    padding: 0 20px;
+    margin: 0;
+}
+
+.active{
+  max-height: 1000px;
+  padding: 20px;
+  margin: 10px 0;
+}
+
+
+/* Responsividade */
+@media (max-width: 1200px) {
+  .lista-fichas{
+      grid-template-columns: repeat(4, 1fr);
   }
+}
+
+@media (max-width: 800px) {
+  .lista-fichas{
+      grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .lista-fichas{
+      grid-template-columns: 1fr;
+  }
+}
