@@ -2,6 +2,7 @@ const Ficha = require('../models/Ficha');
 const multer = require('multer');
 const { admin, bucket } = require('../firebaseAdmin');
 const { v4: uuidv4 } = require('uuid');
+const classesData = require('../config/classesData');
 
 const upload = multer({
     storage: multer.memoryStorage(),
@@ -9,6 +10,30 @@ const upload = multer({
         fileSize: 5 * 1024 * 1024,
     }
 })
+
+const salvarClasse = async (req, res) => {
+    const fichaId = req.params.id;
+    const {classe} = req.body;
+
+    try{
+        const ficha = await Ficha.findById(fichaId);
+        if(!ficha){
+            return res.status(404).json({sucesso: false, mensagem: 'Ficha não encontrada'});
+        }
+
+        if(!classeData[classe]){
+            return res.status(400).json({sucesso: false, mensagem: 'Classe não encontrada'});
+        }
+
+        ficha.classe = classe;
+        await ficha.save();
+
+        res.json({mensagem: 'Classe atualizada com sucesso', ficha});
+    } catch(error){
+        console.error('Erro ao atualizar classe:', error);
+        res.status(500).json({sucesso: false, mensagem: 'Erro no servidor'}); 
+    }
+};
 
 
 const listaPericias = [
@@ -231,6 +256,13 @@ exports.salvarFicha = async (req, res) => {
     await novaFicha.save();
 
     res.status(200).json({mensagem: 'Ficha salva com sucesso', fichaId: novaFicha._id});
+
+    const novaFica = new Ficha({
+     userId: req.userId,
+    });
+    await novaFicha.save();
+    res.redirect(`/ficha/${novaFicha._id}`);
+    
    } catch(error){
     console.error('Erro ao salvar ficha:', error);
     res.status(500).json({erro: 'Erro ao salvar ficha'});
@@ -318,5 +350,57 @@ exports.atualizarFotoPersonagem = async (req, res) => {
     } catch (error) {
         console.error('Erro ao atualizar foto do personagem:', error);
         res.status(500).json({ erro: 'Erro ao atualizar foto do personagem' });
+    }
+};
+
+exports.atualizarClasse = async (req,res) => {
+    const fichaId = req.params.id;
+    const novaClasse = req.body.classe;
+
+    try{
+        const ficha = await Ficha.findById(fichaId);
+        if(!ficha){
+            return res.status(404).json({sucesso: false, mensagem: 'Ficha não encontrada'});
+        }
+
+        ficha.classe = novaClasse;
+        await ficha.save();
+
+        res.json({sucesso: true, mensagem: 'Classe atualizada com sucesso'});
+    } catch(error){
+        console.error('Erro ao atualizar classe:', error);
+        res.status(500).json({sucesso: false, mensagem: 'Erro no servidor'});
+    }
+};
+
+exports.alterarPontos = async (req, res) => {
+    const { fichaId } = req.params;
+    const { tipo, valor } = req.body;
+
+    if (!['pv', 'pm'].includes(tipo)) {
+        return res.status(400).json({ erro: 'Tipo inválido' });
+    }
+
+    try {
+        const ficha = await Ficha.findById(fichaId);
+        if (!ficha) {
+            return res.status(404).json({ erro: 'Ficha não encontrada' });
+        }
+
+        if (tipo === 'pv') {
+            ficha.pontosDeVidaAtual += valor;
+            // Garantir que não ultrapasse os limites
+            ficha.pontosDeVidaAtual = Math.max(0, Math.min(ficha.pontosDeVidaAtual, ficha.pontosDeVidaMax));
+        } else if (tipo === 'pm') {
+            ficha.pontosDeManaAtual += valor;
+            ficha.pontosDeManaAtual = Math.max(0, Math.min(ficha.pontosDeManaAtual, ficha.pontosDeManaMax));
+        }
+
+        await ficha.save();
+
+        res.json(ficha);
+    } catch (error) {
+        console.error('Erro ao alterar pontos:', error);
+        res.status(500).json({ erro: 'Erro interno do servidor' });
     }
 };
