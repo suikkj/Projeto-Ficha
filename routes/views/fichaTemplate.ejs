@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Bona+Nova+SC:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400..900&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles_fichaTempate.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://unpkg.com/vue-advanced-cropper/dist/vue-advanced-cropper.umd.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/vue-advanced-cropper/dist/style.css">
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAtKYerYn2QUHmjwbFx-oNZztdaX_L3Ndk",
+            authDomain: "historiaarquipelagosite.firebaseapp.com",
+            projectId: "historiaarquipelagosite",
+            storageBucket: "historiaarquipelagosite.firebasestorage.app",
+            messagingSenderId: "305747266587",
+            appId: "1:305747266587:web:40111f72d1c9aba7953cbe"
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <title>Ficha - História dos Selos</title>
+    <link rel="icon" type="image/png" href="/icon/Selo de Ydra icon.png">
+</head>
+<body>
+<!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo"><img src="/icon/Selo de Ydra icon.png" alt="Logo"></div>
+            <div class="menu">
+                <nav class="nav-barramenu">
+                    <a href="/">Menu</a>
+                    <a href="/fichas">Fichas</a>
+                    <a href="/campanhas">Campanhas</a>
+                    <a href="/arkaminos">Arkaminos</a>
+                </nav>
+            </div>
+            <div class="perfilusuario">
+                <a href="/configuracoes_usuario" id="profileLink" class="profile-link">
+                    <button id="profileButton" style="background-image: url(/images/default-avatar.jpg);"></button>
+                </a>
+            </div> 
+        </div>
+    </header>
+<!-- Header -->
+
+<!-- Conteúdo Ficha -->
+ <main>
+    <!-- Info Personagem -->
+    <section class="info-personagem">
+        <div class="container">
+            <div class="icone-personagem">
+                
+                <img id="fotoPersonagem" src="<%= ficha.fotoPersonagem ? ficha.fotoPersonagem : '/images/default-avatar.jpg' %>" alt="Foto do Personagem">
+
+                <form id="fotoPersonagemForm" action="/ficha/atualizar_foto_personagem/<%= ficha._id %>" method="POST" enctype="multipart/form-data">
+                    <input type="file" id="uploadFotoPersonagem" name="uploadFotoPersonagem" accept="image/*" style="display: none;">
+                    <button type="button" onclick="document.getElementById('uploadFotoPersonagem').click();">
+                        Escolher Imagem
+                    </button>
+                </form>
+            </div>
+
+            <div id="cropper-modal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <button class="close-button" onclick="closeCropperModal()">X</button>
+                    <div id="vue-cropper-app">
+                        <cropper-component
+                            v-if="isCropperVisible"
+                            ref="cropperComponent"
+                            :initialImage="initialImage">
+                        </cropper-component>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dados-personagem">
+                <button id="edit-info-button" class="edit-button" title="Editar Informações">
+                    <i class="bi bi-pencil"></i>
+                </button>
+                <div class="linha">
+                    <div class="campo">
+                        <label for="nomePersonagem">Nome:</label>
+                        <input type="text" id="nomePersonagem" value="<%= ficha.identidade.nomePersonagem %>" readonly>
+                    </div>
+                    <div class="campo">
+                        <label for="origem">Origem:</label>
+                        <input type="text" id="origem" value="<%= ficha.origem %>" readonly>
+                    </div>
+                    <div class="campo">
+                        <label for="nivel">Nìvel:</label>
+                        <select id="nivel">
+                            <% for (let i = 1; i <= 20; i++) { %>
+                                <option value="<%= i %>" <%= ficha.nivel === i ? 'selected': '' %>> <%= i%> </option>
+                           <% } %>
+                        </select>
+                    </div>
+                </div>
+                <div class="linha">
+                    <div class="campo">
+                        <label for="raca">Raça(s):</label>
+                        <input type="text" id="raca" value="<%= ficha.raca %>" readonly>
+                    </div>
+                    <div class="campo">
+                        <label for="classe">Classe:</label>
+                        <select id="classe">
+                            <% const classes = ['Arcanista', 'Barbaro', 'Bardo', 'Bucaneiro', 'Cacador', 'Cavaleiro', 'Clerigo', 'Druida', 'Frade', 'Guerreiro', 'Inventor', 'Ladino', 'Lutador', 'Nobre', 'Paladino']; %>
+                            <% classes.forEach(function(classe){ %>
+                            <option value="<%= classe %>" <%= ficha.classe === classe ? 'selected' : '' %>> <%= classe %> </option>
+                            <%});%>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label for="arkamino">Arkamino:</label>
+                        <input type="text" id="arkamino" value="<%= ficha.arkamino %>" readonly>
+                    </div>
+                    <div class="campo">
+                        <label for="divindade">Divindade:</label>
+                        <select id="divindade">
+                            <% const divindades = ['Aima', 'Moguto', 'Tago', 'Fidus', 'Ekvilli', 'Mythos', 'Mallumo', 'Rideto', 'Osto']; %>
+                            <% divindades.forEach(function(divindade) { %> 
+                                <option value="<%= divindade %>" <%= ficha.divindade === divindade ? 'selected' : '' %>> <%= divindade %> </option>
+                            <% }); %> 
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- Atributos -->
+     <section class="atributos">
+        <button id="edit-atributos-button" class="edit-button">
+            <i class="bi bi-pencil"></i>
+        </button>
+        <div class="atributo-grid">
+            <div class="atributo">
+                <div class="atributo-imagem">
+                    <img src="/images/Atributo_Forca.png" alt="Força">
+                    <input type="number" id="forca" value="<%= ficha.atributos.forca %>" readonly>
+                </div>
+                <label for="forca">Força</label>
+            </div>
+            <div class="atributo">
+                <div class="atributo-imagem">
+                    <img src="/images/Atributo_Destreza.png" alt="Destreza">
+                    <input type="number" id="destreza" value="<%= ficha.atributos.destreza %>" readonly>
+                </div>
+                <label for="destreza">Destreza</label>
+            </div>
+            <div class="atributo">
+                <div class="atributo-imagem">
+                    <img src="/images/Atributo_Constituicao.png" alt="Constituição">
+                    <input type="number" id="constituicao" value="<%= ficha.atributos.constituicao %>" readonly>
+                </div>
+                <label for="constituicao">Constituição</label>
+            </div>
+            <div class="atributo">
+                <div class="atributo-imagem">
+                    <img src="/images/Atributo_Inteligencia.png" alt="Inteligência">
+                    <input type="number" id="inteligencia" value="<%= ficha.atributos.inteligencia %>" readonly>
+                </div>
+                <label for="inteligencia">Inteligência</label>
+             </div>
+            <div class="atributo">
+                <div class="atributo-imagem">
+                    <img src="/images/Atributo_Sabedoria.png" alt="Sabedoria">
+                    <input type="number" id="sabedoria" value="<%= ficha.atributos.sabedoria %>" readonly>
+                </div>
+                <label for="sabedoria">Sabedoria</label>
+            </div>
+            <div class="atributo">
+                <div class="atributo-imagem">
+                    <img src="/images/Atributo_Carisma.png" alt="Carisma">
+                    <input type="number" id="carisma" value="<%= ficha.atributos.carisma %>" readonly>
+                </div>
+                <label for="carisma">Carisma</label>
+            </div>
+        </div>
+    </section>
+
+<!-- Vida e Mana -->
+<section class="vida-mana">
+    <div class="pontos">
+      <h3>Pontos de Vida</h3>
+      <div class="barra-pontos">
+        <button class="pv-decrease">◄</button>
+        <div class="barra-container">
+          <div class="barra-preenchida" id="barra-pv"></div>
+          <div class="valores-pontos">
+            <input id="pv-atual" type="number" value="<%= pvAtual %>"> /
+            <input id="pv-maximo" type="number" value="<%= pvMaximo %>">
+            <span id="pvAtualData" style="display:none;"><%= pontosDeVidaAtual %></span>
+          </div>
+        </div>
+        <button class="pv-increase">►</button>
+      </div>
+    </div>
+
+    <div class="pontos">
+        <h3>Pontos de Mana</h3>
+        <div class="barra-pontos">
+          <button class="pm-decrease">◄</button>
+          <div class="barra-container">
+            <div class="barra-preenchida" id="barra-pm"></div>
+            <div class="valores-pontos">
+                <input id="pm-atual" type="number" value="<%= pmAtual %>"> /
+                <input id="pm-maximo" type="number" value="<%= pmMaximo %>">
+                <span id="pmAtualData" style="display:none;"><%= pontosDeManaAtual %></span>
+            </div>
+          </div>
+          <button class="pm-increase">►</button>
+        </div>
+      </div>
+</section>
+
+    
+    <!-- Perícias -->
+    <div class="container-pericias-acoes">
+    <section class="pericias">
+        <h3>Perícias</h3>
+        <div class="pericia-header">
+            <span class="pericia-header-item">Perícia</span>
+            <span class="pericia-header-item">Total</span>
+            <span class="pericia-header-item">1/2 Nível</span>
+            <span class="pericia-header-item">Atributo</span>
+            <span class="pericia-header-item">Treinado</span>
+            <span class="pericia-header-item">Outros</span>
+        </div>
+
+        <% const atributosDisponiveis = ['FOR', 'DES', 'CON', 'INT', 'SAB', 'CAR']; %>
+        <% const periciaAtributoMap = {
+            "Acrobacia": "DES",
+            "Adestramento": "CAR",
+            "Atletismo": "FOR",
+            "Atuação": "CAR",
+            "Cavalgar": "DES",
+            "Conhecimento": "INT",
+            "Cura": "SAB",
+            "Diplomacia": "CAR",
+            "Enganação": "CAR",
+            "Fortitude": "CON",
+            "Furtividade": "DES",
+            "Guerra": "INT",
+            "Iniciativa": "DES",
+            "Intimidação": "CAR",
+            "Intuição": "SAB",
+            "Investigação": "INT",
+            "Jogatina": "CAR",
+            "Ladinagem": "DES",
+            "Luta": "FOR",
+            "Misticismo": "INT",
+            "Nobreza": "INT",
+            "Ofício": "INT",
+            "Percepção": "SAB",
+            "Pilotagem": "DES",
+            "Pontaria": "DES",
+            "Reflexos": "DES",
+            "Religião": "SAB",
+            "Sobrevivência": "SAB",
+            "Vontade": "SAB"
+        }; %>
+
+        <% listaPericias.forEach(function(periciaNome) { %> 
+
+        <div class="pericia">
+            <button class="rolar-button" data-pericia="<%= periciaNome %>">
+                <img src="/images/d20-icon.png" alt="Rolagem" width="20">
+            </button>
+
+            <span class="pericia-nome"><%= periciaNome %> </span>
+
+            <span class="pericia-total" id="total-<%= periciaNome %>">0</span>
+
+            <span class="pericia-meio-nivel" id="meio-nivel-<%= periciaNome %>">0</span>
+
+            <select class="pericia-atributo" data-pericia="<%= periciaNome %>">
+                <% atributosDisponiveis.forEach(function(attr){ %>
+                    <option value="<%= attr %>" <%= periciaAtributoMap[periciaNome] === attr ? 'selected' : '' %>> <%= attr %> </option>
+                <% }); %>
+            </select>
+            
+            <input type="checkbox" class="treinado" data-pericia="<%= periciaNome %>">
+
+            <input type="number" class="outros" data-pericia="<%= periciaNome %>" value="0">
+        </div>
+        <% }); %>
+    </section>
+
+    <!-- Caixa Ações -->
+    <section class="acoes">
+        <h3>Ações</h3>
+        <div class="tabs">
+            <button class="tab-button active" data-tab="combate">Combate</button>
+            <button class="tab-button" data-tab="habilidades">Habilidades</button>
+            <button class="tab-button" data-tab="magias">Magias</button>
+            <button class="tab-button" data-tab="inventario">Inventário</button>
+            <button class="tab-button" data-tab="arkamino">Arkamino</button>
+            <button class="tab-button" data-tab="descricoes">Descrições</button>
+        </div>
+
+        <div class="tab-content active" id="combate">
+            <button id="add-combate" class="add-button">Adicionar</button>
+            <ul id="lista-combate-habilidades">
+                <!-- Lista -->
+             </ul>
+        </div>
+
+        <div id="modal-combate" class="modal">
+            <div class="modal-content">
+                <h4>Adicionar Ataque</h4>
+            </div>
+        </div>
+
+        <div class="tab-content" id="habilidades">
+            <!-- Conteudo -->
+             <button id="add-habilidade" class="add-button">Adicionar</button>
+             <ul id="lista-habilidades">
+                
+                
+
+
+             </ul>
+        
+        <div id="modal-habilidades" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Adicionar Habilidade</h4>
+                </div>
+                <ul id="etapas-habilidades">
+                    <li data-step="habilidadeRaca">Raça</li>
+                    <li data-step="habilidadeClasse">Classe</li>
+                    <li data-step="habilidadeOrigem">Origem</li>
+                    <li data-step="poderesCombate">Combate</li>
+                    <li data-step="poderesDestino">Destino</li>
+                    <li data-step="poderesMagia">Magia</li>
+                    <li data-step="poderesConcedidos">Concedidos</li>
+                    <li data-step="poderesTormenta">Tormenta</li>
+                    <li data-step="poderesSelos">História dos Selos</li>
+                </ul>
+        
+                <ul id="respostas-habilidades" style="display: none; margin-top: 20px;">
+                        <% if(ficha.habilidades){ %>
+                            <% ficha.habilidades.forEach(function(habilidade){ %> 
+                            <li><%= habilidade.nome %> </li>
+                            <% }) %>
+                        <% } %>
+                        <button onclick="voltarEtapas()">Voltar</button>
+                </ul>
+        
+                <div id="lista-habilidades-disponiveis" style="display: none; margin-top: 20px;">
+        
+                </div>
+        
+                </div>
+            </div>
+
+            <!-- Modal de Confirmação de Exclusão -->
+            <div id="confirmDeleteModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button">&times;</span>
+                    <p>Tem certeza que quer excluir essa habilidade?</p>
+                    <button id="confirmDeleteBtn">Sim</button>
+                    <button id="cancelDeleteBtn">Não</button>
+                </div>
+            </div>
+            
+        </div>
+    
+
+        <div class="tab-content" id="magias">
+            <!-- Conteudo -->
+             <button id="add-magia" class="add-button">Adicionar</button>
+             <div id="modal-magias" class="modal">
+                <div class="modal-content">
+                    <h4>Adicionar Magia</h4>
+                    <ul id="etapas-magias">
+                        <li data-type="arcanas">Arcanas</li>
+                        <li data-type="divinas">Divinas</li>
+                    </ul>
+                    <div id="magias-nested-steps"></div>
+                </div>
+             </div>
+        </div>
+
+        <div class="tab-content" id="inventario">
+            <!-- Conteudo -->
+            <button id="add-item" class="add-button">Adicionar</button>
+            <div id="modal-inventario" class="modal">
+                <div class="modal-content">
+                    <h4>Adicionar Item ao Inventário</h4>
+                    <ul id="etapas-inventario">
+                        <li data-category="armas">Armas</li>
+                        <li data-category="armaduras">Armaduras</li>
+                        <li data-category="escudos">Escudos</li>
+                        <li data-category="itensGerais">Itens Gerais</li>
+                        <li data-category="itensSuperiores">Itens Superiores</li>
+                    </ul>
+
+                    <div id="inventario-nested-steps"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="arkamino">
+            <button id="add-arkamino-poder" class="add-button">Adicionar</button>
+            <ul id="lista-arkamino-poderes">
+                <% if (ficha.arkaminoPoderes) { %> 
+                    <% ficha.arkaminoPoderes.forEach(function(poder){ %> 
+                        <li><%= poder %></li>
+                    <% }); %> 
+                <% } %>
+            </ul>
+        
+            <div id="modal-arkamino" class="modal">
+                <div class="modal-content">
+                    <h4>Adicionar Poder de Arkamino</h4>
+                    <ul id="etapas-arkamino">
+                        <li data-poder="vindenseto">Vindenseto</li>
+                        <li data-poder="nomius">Nomius</li>
+                        <li data-poder="estrelatoNoturno">Estrelato Noturno</li>
+                        <li data-poder="pesadeloVivo">Pesadelo-Vivo</li>
+                        <li data-poder="orcavalin">Orcavalin</li>
+                        <li data-poder="nevasposa">Nevasposa</li>
+                    </ul>
+        
+                    <div id="arkamino-nested-steps"></div>
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="tab-content" id="descricoes">
+            <!-- Conteudo -->
+        </div>
+    </div>
+</div>
+    </section>
+
+    <!-- combate -->
+    <section class="combate">
+        <div class="campo">
+            <label for="defesa">Defesa:</label>
+            <input type="number" id="defesa" value="<%= ficha.defesa %>">
+        </div>
+        <div class="campo">
+            <label for="cd-magia">CD da Magia:</label>
+            <input type="number" id="cd-magia" value="<%= ficha.cdMagia %>">
+        </div>
+        <div class="campo">
+            <label for="deslocamento">Deslocamento:</label>
+            <input type="number" id="deslocamento" value="<%= ficha.deslocamento %>">
+        </div>
+    </section>
+
+
+ </main>
+    
+ <div id="listaPericiasData" style="display: none;">
+    <%- JSON.stringify(listaPericias) %>
+</div>
+<div id="periciaAtributoMapData" style="display: none;">
+    <%- JSON.stringify(periciaAtributoMap) %>
+</div>
+<div id="fichaIdData" style="display: none;">
+    <%= ficha._id.toString() %>
+</div>
+
+ <script>
+    const listaPericias = <%- JSON.stringify(listaPericias) %>;
+    const periciaAtributoMap = <%- JSON.stringify(periciaAtributoMap) %>;
+    const fichaData = {
+    fichaId: '<%= ficha._id.toString() %>',
+  };
+</script>
+
+
+    <script>
+        document.getElementById('divindade').addEventListener('change', function () {
+            const divindade = this.value;
+            fetch('/atualizar_divindade/<%= ficha._id %>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ divindade })
+            }) 
+            .then(response => response.json())
+            .then(data => { 
+                if(data.mensagem){
+                    console.log(data.mensagem);
+                } else if(data.erro){
+                    alert(data.erro);
+                } 
+            })
+            .catch(error => {
+                console.error('Erro ao atualizar divindade:', error);
+            });  
+        });
+    </script>
+
+        
+
+    <script src="/user.js"></script>
+    <script src="/vueCropperApp.js"></script>
+    <script type="module" src="/script_ficha.js"></script>
+
+
+
+
+
+
+
+</body>
+</html>

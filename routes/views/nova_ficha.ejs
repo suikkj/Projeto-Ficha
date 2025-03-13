@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles_novaficha.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Bona+Nova+SC:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400..900&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Special+Elite&display=swap');
+        </style>
+    <title>Nova Ficha - História dos Selos</title>
+    <link rel="icon" type="image/png" href="/icon/Selo de Ydra icon.png">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo"><img src="/icon/Selo de Ydra icon.png" alt="Logo"></div>
+            <div class="menu">
+                <nav class="nav-barramenu">
+                    <a href="/">Menu</a>
+                    <a href="/fichas">Fichas</a>
+                    <a href="/campanhas">Campanhas</a>
+                    <a href="/arkaminos">Arkaminos</a>
+                </nav>
+            </div>
+            <div class="perfilusuario">
+                <a href="/configuracoes_usuario" id="profileLink" class="profile-link">
+                    <button id="profileButton" style="background-image: url(/images/default-avatar.jpg);"></button>
+                </a>
+            </div> 
+        </div>
+    </header>
+    <!-- Fim header -->
+
+    <!-- Criação Ficha -->
+    <main>
+        <div id="steps">
+            <div id="racas" class="step active">
+                <h1><span>Raça</span></h1>
+                <div class="race-container" id="firstRaceSelector">
+
+                    <div class="race-button" data-race="abomena" data-race-type="first">
+                        <div class="race-header">
+                             <span class="race-name">Abomena</span>
+                             <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="race-content">
+                            <ul>
+                                <li><span>Fidelitus:</span>+2 Força, +1 Carisma, -1 Inteligência ou Sabedoria.</li><br>
+                                <li><span>Ingenius:</span>+2 Força, +1 Constituição, -1 Carisma ou Sabedoria.</li><br>
+                                <li><span>Marca da Maldição:</span> Você pode trocar o atributo-chave de Misticismo para Força. </li><br>
+                                <li><span>Fé Inabalável (Fidelitus):</span> Você recebe um Poder Concedido de Deus Fidus, pois deve seguir unica e exclusivamente o mesmo. Além disso, pode escolher entre lançar <span>Luz</span> (como uma magia divina; atributo-chave Carisma) ou <span>Escuridão</span> (como magia divina; atributo-chave Força). Caso aprenda novamente essa magia, seu custo diminui em -1PM.</li><br>
+                                <li><span>Força Indomável (Ingenius):</span>Você recebe +2 em testes de Luta e +1 em rolagens de ataque com uma arma corpo a corpo.</li><br>
+                            </ul>
+                         <button class="select-race" data-primeira-raca="Abomena">Escolher Abomena</button>
+                        </div>
+                    </div>
+
+                   <!-- Anão -->
+                    <div class="race-button" data-race="anao" data-race-type="first">
+                        <div class="race-header">
+                             <span class="race-name">Anão</span>
+                             <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="race-content">
+                            <ul>
+                                <li>+2 Constituição, +1 Sabedoria, -1 Destreza.</li> <br>
+                                <li><span>Conhecimento das Rochas:</span> Você recebe visão no escuro e +2 em testes de Percepção e Sobrevivência realizados no subterrâneo</li><br>
+                                <li><span>Devagar e Sempre:</span> Seu deslocamento é 6m(em vez de 9m). Porém, seu deslocamento não é reduzido por uso de armadura ou excesso de carga.</li><br>
+                                <li><span>Duro como Pedra:</span> Você recebe +3 pontos de vida no 1º nível e +1 por nível seguinte.</li><br>
+                                <li><span>Tradição de Heredrimm:</span>Você é perito nas armas tradicionais anãs, seja por ter treinado com elas, seja por usá-las como ferramentas de ofício. Para você, todos os machados, martelos, marretas e picaretas são armas simples. Você recebe +2 em ataques com essas armas.</li><br>
+                            </ul>
+                         <button class="select-race" data-primeira-raca="Anao">Escolher Anão</button>
+                        </div>
+                    </div>
+
+                    <!-- Bugbear -->
+                    <div class="race-button" data-race="bugbear" data-race-type="first">
+                        <div class="race-header">
+                            <span class="race-name">Bugbear</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="race-content">
+                            <ul>
+                                <li>+1 em Três Atributos Diferentes(Exceto Carisma), -2 Carisma.</li><br>
+                                <li><span>Híbrido Mecânico:</span> Você é uma criatura do tipo construto. Recebe visão no escuro e imunidade a cansaço, efeitos metabolícos e veneno. Além disso, não precisa respirar, alimentar-se ou dormir, mas não se beneficia de itens da categoria alimentação e efeitos de cura mundana são reduzidos pela metade em você. Você precisa ficar inerte por 8 horas por dia para recarregar suas forças. Se fizer isso, recupera PV e PM por descanso em condições normais(Yidishan não são afetados por condições boas ou ruins de descanso).</li><br>
+                                <li><span>Natureza Orgânica:</span> Você se torna treinado em uma perícia(que não precisa ser da sua classe) ou recebe um poder geral a sua escolha. Como alternativa, você pode ser um Yidishan de outra raça humanoide além de humano. Neste caso, você ganha uma habilidade dessa raça a sua escolha. Se a raça era de tamanho diferente de Médio, você também possui sua categoria de tamanho.</li><br>
+                                <li><span>Peças Metálicas:</span> As partes mecânicas que complementam seu corpo fornecem +2 na Defesa, mas impõem uma penalidade de armadura de -2.</li><br>
+                            </ul>
+                        <button class="select-race" data-primeira-raca="Bugbear">Escolher Bugbear</button>
+                        </div>
+                    </div>
+
+
+                    <div class="race-button" data-race="centauro" data-race-type="first">
+                        <div class="race-header">
+                             <span class="race-name">Centauro</span>
+                             <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="race-content">
+                            <ul>
+                                <li>+2 Sabedoria, +1 Força, -1 Inteligência.</li><br>
+                                <li><span>Avantajado:</span> Seu tamanho é Grande e seu deslocamento é 12m.</li><br>
+                                <li><span>Cascos:</span> Você possui uma arma natural de cascos(dano 1d8, crítico x2, impacto). Uma vez por rodada, quando usa a ação agredir para atacar com outra arma, pode gastar 1 PM para fazer um ataque corpo a corpo extra com os cascos.</li><br>
+                                <li><span>Ginete Natural:</span>Você é considerado montado para efeito de fazer investidas e para benefícios das armas que empunha, e pode escolher o poder Carga da Cavalaria mesmo sem cumprir seus pré-requisitos. Entretanto, não pode se beneficiar de uma montaria e, se estiver carregando uma cavaleiro, sofre -2 em testes(além das penalidades de sobrecarga, se houver) e é considerado em condição ruim para lançar magias.</li><br>
+                                <li><span>Medo de Altura:</span> Se estiver adjacente a uma queda de 3m ou mais(como um buraco ou penhasco), você fica abalado.</li><br>
+                            </ul>
+                         <button class="select-race" data-primeira-raca="Centauro">Escolher Centauro</button>
+                        </div>
+                    </div>
+
+                    <div class="race-button" data-race="ceratops" data-race-type="first">
+                        <div class="race-header">
+                             <span class="race-name">Ceratops</span>
+                             <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="race-content">
+                            <ul>
+                                <li>Constituição +2, Força +1, Destreza -1, Inteligência -1</li><br>
+                                <li><span>Chifres:</span> Você possui uma arma natural de chifres (dano 1d8, crítico x2, perfuração). Uma vez por rodada, quando usa a ação agredir para atacar com outra arma, pode gastar 1 PM para fazer um ataque corpo a corpo extra com os chifres.</li><br>
+                                <li><span>Papel Tribal:</span>Você é treinado em uma perícia a sua escolha entre Cura, Intimidação, Ofício ou Sobrevivência.</li><br>
+                                <li><span>Paquidérmico:</span> Seu tamanho é Grande. Você recebe +1 em Defesa e pode usar Força como atributo-chave de Intimidação(Em vez de carisma).</li><br>
+                                <li><span>Medo de Altura:</span> Se estiver adjacente a uma queda de 3m ou mais(como um buraco ou penhasco), você fica abalado.</li><br>
+                            </ul>
+                         <button class="select-race" data-primeira-raca="Ceratops">Escolher Ceratops</button>
+                        </div>
+                    </div>
+        
+                    <div class="race-button" data-race="dahllan" data-race-type="first">
+                        <div class="race-header">
+                             <span class="race-name">Dahllan</span>
+                             <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="race-content">
+                            <ul>
+                                <li>+2 Sabedoria, +1 Destreza, -1 Inteligência.</li><br>
+                                <li><span>Armadura de Allihanna:</span> Você pode gastar uma ação de movimento e 1PM para transformar sua pele em casca de árvore, recebendo +2 na Defesa até o final da cena.</li><br>
+                                <li><span>Amiga das Plantas</span> Você pode lançar a magia Controlar plantas (atributo-chave Sabedoria). Caso aprenda novamente essa magia, seu custo diminui em -1PM.</li><br>
+                                <li><span>Empatia Selvagem:</span> Você pode se comunicar com animais por meio de linguagem corporal e vocalizações. Você pode usar Adestramento para mudar atitude e persuasão com animais. Caso receba esta habilidade novamente, recebe +2 em Adestramento.</li><br>
+                            </ul>
+                         <button class="select-race" data-primeira-raca="Dahllan">Escolher Dahllan</button>
+                        </div>
+                    </div>
+        
+                    <div class="race-button" data-race="eiradaan" data-race-type="first">
+                        <div class="race-header">
+                             <span class="race-name">Eiradaan</span>
+                             <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="race-content">
+                            <ul>
+                                <li>+2 Sabedoria, +1 Carisma, -1 Força.</li><br>
+                                <li><span>Essência Feérica:</span> Você é uma criatura do tipo espírito, recebe visão na penumbra e pode falar com animais livremente.</li> <br>
+                                <li><span>Magia Instintiva:</span> Você pode usar Sabedoria no lugar de Inteligência como atributo-chave de Misticismo e de seu atributo-chave para magias arcanas. Além disso, está sob o efeito básico da magia Visão Mística e, quando lança uma magia com aprimoramentos, o custo total dela diminui em -1PM.</li><br>
+                                <li><span>Canção da Melancolia:</span> Quando faz um teste de Vontade contra efeitos mentais, você rola dois dados e usa o pior.</li><br>
+                            </ul>
+                         <button class="select-race" data-primeira-raca="Eiradaan">Escolher Eiradaan</button>
+                        </div>
+                    </div>
+
+                    <div class="race-button" data-race="elfo" data-race-type="first">
+                        <div class="race-header">
+                             <span class="race-name">Elfo</span>
+                             <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="race-content">
+                            <ul>
+                                <li>+2 Inteligência, +1 Destreza, -1 Constituição.</li><br>
+                                <li><span>Graça de Glórienn:</span> Seu deslocamento é 12m(em vez de 9m).</li><br>
+                                <li><span>Sangue Mágico:</span> Você recebe +1 ponto de mana por nível.</li><br>
+                                <li><span>Sentidos Élficos: </span> Você recebe visão na penumbra e +2 em Misticismo e Percepção.</li><br>
+                            </ul>
+                         <button class="select-race" data-primeira-raca="Elfo">Escolher Elfo</button>
+                        </div>
+                    </div>
+                    
+                    <div class="race-button" data-race="elfodomar" data-race-type="first">
+                        <div class="race-header">
+                             <span class="race-name">Elfo-do-mar</span>
+                             <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="race-content">
+                            <ul>
+                                <li>+2 Destreza, +1 Constituição, -1 Inteligência.</li><br>
+                                <li><span>Arsenal do Oceano:</span> Você recebe proficiência em arpão, rede e tridente e +2 em testes de ataque com essas armas. Se receber proficiência em uma dessas armas novamente, pode considerá-la uma arma leve.</li><br>
+                                <li><span>Cria das Águas:</span> Você possui deslocamento de natação igual a seu deslocamento em terra e visão na penumbra. Quando dentro d'água, você recebe Percepção às cegas e +2 na Defesa e, em Furtividade e Sobrevivência.</li><br>
+                                <li><span>Dependência de Água</span> Se permanecer mais de um dia sem contato com água, você não recupera PM com descanso até voltar para a água(ou, pelo menos tomar um bom banho!).</li><br>
+                            </ul>
+                         <button class="select-race" data-primeira-raca="Elfodomar">Escolher Elfo-do-mar</button>
+                        </div>
+                    </div>
+                    
+                    <div class="race-button" data-race="finntroll" data-race-type="first">
+                        <div class="race-header">
+                             <span class="race-name">Finntroll</span>
+                             <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="race-content">
+                            <ul>
+                                <li>Inteligência +2, Constituição +1, Força -1.</li><br>
+                                <li><span>Corpo Vegetal: </span> Você é uma criatura do tipo monstro e recebe natureza vegetal e visão no escuro.</li><br>
+                                <li><span>Presença Arcana:</span> Você recebe +2 em Misticismo e resistência a magia +2</li><br>
+                                <li><span>Regeneração Vegetal:</span> Uma vez por rodada, você pode gastar 1PM para recuperar 5PV. Esta habilidade não cura dano de ácido ou fogo.</li><br>
+                                <li><span>Intolerância a Luz:</span> Você recebe sensibilidade a luz e, quando exposto à luz do sol ou similar, não consegue ativar sua Regeneração Vegetal.</li><br>
+                            </ul>
+                         <button class="select-race" data-primeira-raca="Finntroll">Escolher Finntroll</button>
+                        </div>
+                    </div>
+                    
+                    <div class="race-button" data-race="galokk" data-race-type="first">
+                        <div class="race-header">
+                             <span class="race-name">Galokk</span>
+                             <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="race-content">
+                            <ul>
+                                <li>Força +1, Constituição +1, +1 em um Atributo, Carisma -1.</li><br>
+                                <li><span>Força dos Titãs:</span> Quando faz um ataque corpo a corpo ou de arremesso, você pode gastar 1PM. Se fizer isso e acertar o ataque, pode rolar mais uma vez qualquer resultado máximo da rolagem de dano da arma e adicionar o novo resultado ao dano causado. </li><br>
+                                <li><span>Grandão:</span> Você é criatura do tipo humanoide(gigante). Seu tamanho é Grande e você pode usar Força como atributo-chave de Intimidação(em vez de Carisma).</li><br>
+                                <li><span>Infância Entre os Pequenos:</span> Você se torna treinado em uma perícia a sua escolha.</li><br>
+                            </ul>
+                         <button class="select-race" data-primeira-raca="Galokk">Escolher Galokk</button>
+                        </div>
+                    </div>
+                    
+
+                    <!--Fim Raças-->
+                </div>
+            </div>
+            
+
+            <!-- CLASSES -->
+            <div id="classes" class="step">
+                <h1>Escolha sua: <span>Classe</span></h1>
+                <div class="class-container">
+                    <!-- Guerreiro -->
+                    <div class="class-button" data-classe="guerreiro">
+                        <div class="class-header">
+                            <span class="class-name">Guerreiro</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="class-content">
+                            <ul>
+                                <li>Força +2, Constituição +1, Inteligência -1.</li>
+                                <li><span>Especialização em Armas:</span> Você pode escolher uma categoria de arma para receber +2 em ataques e dano.</li>
+                                <li><span>Resistência Física:</span> Recebe +2 em testes de resistência contra efeitos que alteram atributos físicos.</li>
+                                <li><span>Técnicas de Combate:</span> Você aprende duas manobras de combate que podem ser usadas uma vez por combate.</li>
+                            </ul>
+                            <button class="select-class" data-class="Guerreiro">Escolher Guerreiro</button>
+                        </div>
+                    </div>
+                    <!--Nobre -->
+                    <div class="class-button" data-classe="nobre">
+                        <div class="class-header">
+                            <span class="class-name">Nobre</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="class-content">
+                            <ul>
+                                <li>Força +2, Constituição +1, Inteligência -1.</li>
+                                <li><span>Especialização em Armas:</span> Você pode escolher uma categoria de arma para receber +2 em ataques e dano.</li>
+                                <li><span>Resistência Física:</span> Recebe +2 em testes de resistência contra efeitos que alteram atributos físicos.</li>
+                                <li><span>Técnicas de Combate:</span> Você aprende duas manobras de combate que podem ser usadas uma vez por combate.</li>
+                            </ul>
+                            <button class="select-class">Escolher Nobre</button>
+                        </div>
+                    </div>
+                    <!-- Guerreiro -->
+                    <div class="class-button" data-classe="Arcanista">
+                        <div class="class-header">
+                            <span class="class-name">Arcanista</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="class-content">
+                            <ul>
+                                <li>Força +2, Constituição +1, Inteligência -1.</li>
+                                <li><span>Especialização em Armas:</span> Você pode escolher uma categoria de arma para receber +2 em ataques e dano.</li>
+                                <li><span>Resistência Física:</span> Recebe +2 em testes de resistência contra efeitos que alteram atributos físicos.</li>
+                                <li><span>Técnicas de Combate:</span> Você aprende duas manobras de combate que podem ser usadas uma vez por combate.</li>
+                            </ul>
+                            <button class="select-class" data-class="Arcanista">Escolher Arcanista</button>
+                        </div>
+                    </div>
+
+                    
+
+                    <!-- Exemplo para Classe -->
+                    <div class="class-button" data-classe="broxa">
+                        <div class="class-header">
+                            <span class="class-name">Broxa</span>
+                            <span class="toggle-info">&#9660;</span>
+                        </div>
+                        <div class="class-content">
+                            <p>Descrição da Classe...</p>
+                            <button class="select-class">Selecionar Classe</button>
+                        </div>
+                    </div>
+
+                    <!-- Adicione mais classes conforme necessário seguindo o mesmo padrão -->
+                </div>
+            </div>
+
+            <!-- ORIGEM -->
+            <div id="origem" class="step">
+                <h1>Escolha sua: <span>Origem</span></h1>
+                <div class="origin-container">
+                    <!-- Nobre -->
+                    <div class="origin-button" data-origem="Nobre">
+                        <div class="origin-header">
+                            <span class="origin-name">Nobre</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="origin-content">
+                            <ul>
+                                <li>Origem de uma família influente.</li><br>
+                                <li><span>Diplomacia:</span> Recebe +2 em testes de Persuasão e Intimidação.</li><br>
+                                <li><span>Recursos Financeiros:</span> Possui fundos adicionais para adquirir equipamentos.</li><br>
+                                <li><span>Conhecimento Social:</span> Recebe proficiência em Etiqueta.</li><br>
+                            </ul>
+                            <button class="select-origin" data-origin="Nobre">Escolher Origem Nobre</button>
+                        </div>
+                    </div>
+
+                    <!-- Mercador -->
+                    <div class="origin-button" data-origem="Mercador">
+                        <div class="origin-header">
+                            <span class="origin-name">Mercador</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="origin-content">
+                            <ul>
+                                <li>Origem ligada ao comércio e negociação.</li><br>
+                                <li><span>Habilidade em Comércio:</span> Recebe +2 em testes de Comércio e Barganha.</li><br>
+                                <li><span>Rede de Contatos:</span> Possui contatos que podem fornecer informações ou recursos.</li><br>
+                                <li><span>Gestão de Recursos:</span> Pode organizar e gerir recursos de forma eficiente.</li><br>
+                            </ul>
+                            <button class="select-origin">Escolher Origem Mercador</button>
+                        </div>
+                    </div>
+
+                    <!-- Ermitão -->
+                    <div class="origin-button" data-origem="Ermitão">
+                        <div class="origin-header">
+                            <span class="origin-name">Ermitão</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="origin-content">
+                            <ul>
+                                <li>Vida isolada dedicada à meditação e estudo.</li><br>
+                                <li><span>Sabedoria Interior:</span> Recebe +2 em testes de Sabedoria e Percepção.</li><br>
+                                <li><span>Conhecimento Místico:</span> Possui conhecimentos sobre práticas espirituais ou mágicas.</li><br>
+                                <li><span>Resiliência Mental:</span> Recebe vantagem em resistir a efeitos que afetam a mente.</li><br>
+                            </ul>
+                            <button class="select-origin">Escolher Origem Ermitão</button>
+                        </div>
+                    </div>
+
+                    <!-- Exemplo para Origem -->
+                    <div class="origin-button" data-origem="Humano">
+                        <div class="origin-header">
+                            <span class="origin-name">Humano</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="origin-content">
+                            <p>Descrição da Origem...</p>
+                            <button class="select-origin">Selecionar Origem</button>
+                        </div>
+                    </div>
+
+                    <!-- Adicione mais origens conforme necessário seguindo o mesmo padrão -->
+                </div>
+            </div>
+
+            <!-- ARKAMINO -->
+            <div id="arkamino" class="step">
+                <h1>Escolha seu: <span>Arkamino</span></h1>
+                <div class="arkamino-container">
+                    <!-- Arkamino Elemental -->
+                    <div class="arkamino-button" data-arkamino="elemental">
+                        <div class="arkamino-header">
+                            <span class="arkamino-name">Elemental</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="arkamino-content">
+                            <ul>
+                                <li>Conexão com os elementos naturais.</li><br>
+                                <li><span>Controle Elemental:</span> Pode manipular fogo, água, terra ou ar.</li><br>
+                                <li><span>Resistência Elementar:</span> Recebe resistência a um tipo de dano elemental.</li><br>
+                                <li><span>Forma Elemental:</span> Pode assumir temporariamente uma forma pura do elemento escolhido.</li><br>
+                            </ul>
+                            <button class="select-arkamino" data-arkamino="Elemental">Escolher Arkamino Elemental</button>
+                        </div>
+                    </div>
+
+                    <!-- Arkamino Sombrio -->
+                    <div class="arkamino-button" data-arkamino="sombrio">
+                        <div class="arkamino-header">
+                            <span class="arkamino-name">Sombrio</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="arkamino-content">
+                            <ul>
+                                <li>Conexão com as forças das sombras.</li><br>
+                                <li><span>Manipulação das Sombras:</span> Pode criar e controlar sombras para diversos efeitos.</li><br>
+                                <li><span>Invisibilidade Parcial:</span> Pode se tornar parcialmente invisível por breves períodos.</li><br>
+                                <li><span>Resistência às Trevas:</span> Recebe resistência a danos de trevas e sombras.</li><br>
+                            </ul>
+                            <button class="select-arkamino">Escolher Arkamino Sombrio</button>
+                        </div>
+                    </div>
+
+                    <!-- Arkamino Celestial -->
+                    <div class="arkamino-button" data-arkamino="celestial">
+                        <div class="arkamino-header">
+                            <span class="arkamino-name">Celestial</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="arkamino-content">
+                            <ul>
+                                <li>Conexão com entidades celestiais.</li><br>
+                                <li><span>Proteção Divina:</span> Pode invocar uma barreira protetora para si ou para aliados.</li><br>
+                                <li><span>Toque Curativo:</span> Pode curar ferimentos menores através do toque.</li><br>
+                                <li><span>Resistência Divina:</span> Recebe resistência a danos sagrados e divinos.</li><br>
+                            </ul>
+                            <button class="select-arkamino">Escolher Arkamino Celestial</button>
+                        </div>
+                    </div>
+
+                    <!-- Exemplo para Arkamino -->
+                    <div class="arkamino-button" data-arkamino="Fenix">
+                        <div class="arkamino-header">
+                            <span class="arkamino-name">Fenix</span>
+                            <span class="toggle-info">▼</span>
+                        </div>
+                        <div class="arkamino-content">
+                            <p>Descrição de Arkamino...</p>
+                            <button class="select-arkamino">Selecionar Arkamino</button>
+                        </div>
+                    </div>
+
+                    <!-- Adicione mais arkaminos conforme necessário seguindo o mesmo padrão -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+
+
+    <script src="/script.js"></script>
+</body>
+</html>
