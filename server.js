@@ -22,7 +22,7 @@ const {
     atualizarFotoPerfil,
     usuarioAtual
 } = require('./controllers/usuarioController');
-const fichaController = require('./controllers/fichaController'); // Importar o fichaController
+const fichaController = require('./controllers/fichaController'); 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -142,7 +142,19 @@ app.get('/usuario_atual', autenticarUsuario, usuarioAtual);
 app.post('/atualizar_username', autenticarUsuario, atualizarUsername);
 app.post('/atualizar_email', autenticarUsuario, atualizarEmail);
 app.post('/atualizar_senha', autenticarUsuario, atualizarSenha);
-app.post('/ficha/atualizar_foto_personagem/:id', autenticarUsuario, upload.single('uploadFotoPersonagem'), fichaController.atualizarFotoPersonagem);
+app.post('/ficha/atualizar_foto_personagem/:fichaId', async (req, res) => {
+    try {
+        const { photoURL } = req.body;
+        if (!photoURL) {
+            return res.status(400).json({ erro: 'Nenhum link de foto fornecido.' });
+        }
+        await Ficha.findByIdAndUpdate(req.params.fichaId, { fotoPersonagem: photoURL });
+        res.json({ caminho: photoURL, mensagem: 'Foto atualizada com sucesso!' });
+    } catch (error) {
+        console.error('Erro ao atualizar foto:', error);
+        res.status(500).json({ erro: error.message });
+    }
+});
 app.post('/atualizar_foto_perfil', autenticarUsuario, upload.single('uploadFotodePerfil'), async (req, res) => {
     try {
         console.log('Iniciando upload da foto de perfil');
@@ -156,18 +168,20 @@ app.post('/atualizar_foto_perfil', autenticarUsuario, upload.single('uploadFotod
         }
         const filePath = `uploads/${uuidv4()}-${req.file.originalname}`;
         console.log(`Caminho do arquivo: ${filePath}`);
-        await bucket.upload(req.file.path, {
-            destination: filePath,
+
+        const file = bucket.file(filePath);
+
+        await file.save(req.file.buffer, {
             metadata: {
                 contentType: req.file.mimetype,
             },
         });
+
         console.log('Upload concluído');
 
-        const file = bucket.file(filePath);
         const [url] = await file.getSignedUrl({
             action: 'read',
-            expires: '12-31-2030',
+            expires: '01-01-2040',
         });
         console.log(`URL assinada: ${url}`);
         await Usuario.findByIdAndUpdate(req.userId, { fotoPerfil: url });
@@ -178,17 +192,25 @@ app.post('/atualizar_foto_perfil', autenticarUsuario, upload.single('uploadFotod
     }
 });
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-
 // Rotas das Fichas
 app.get('/nova_ficha', autenticarUsuario, (req, res) => {
-    res.render('nova_ficha'); // Certifique-se de que o arquivo é 'nova_ficha.ejs'
+    res.render('nova_ficha');
 });
 
-app.post('/salvarFicha', autenticarUsuario, fichaController.salvarFicha);
-console.log('Rota POST /salvarFicha definida');
+app.post('/salvarFicha', autenticarUsuario, async (req, res) => {
+    try{
+        const fichaData = req.body;
+        fichaData.userId = req.userId;
+
+        const novaFicha = new Ficha(fichaData);
+        await novaFicha.save();
+
+        res.json({success: true, fichaId: novaFicha._id});
+    } catch(error){
+        console.error('Erro ao salvar a ficha:', error);
+        res.status(500).json({ success: false, message: 'Erro ao salvar ficha'});
+    }
+})
 
 app.post('/salvarRaca', autenticarUsuario, fichaController.salvarRaca);
 app.post('/salvarClasse', autenticarUsuario, fichaController.salvarClasse);
@@ -197,8 +219,28 @@ app.post('/salvarOrigem', autenticarUsuario, fichaController.salvarOrigem);
 app.post('/salvarArkamino', autenticarUsuario, fichaController.salvarArkamino);
 app.use('/ficha', fichaRoutes);
 
-app.get('/fichas', autenticarUsuario, (req, res) => {
-    res.render('fichas');
+app.get('/fichas', autenticarUsuario, async (req, res) => {
+    try{
+        const fichas = await Ficha.find({userId: req.userId}).lean();
+        res.render('fichas', {fichas});
+    } catch(error){
+        console.error('Erro ao recuperar fichas:', error);
+        res.status(500).send('Erro interno do servidor');
+    }
+});
+
+app.delete('/fichas/delete/:id', autenticarUsuario, async (req, res) => {
+    const { id } = req.params;
+    try {
+        const fichaDeletada = await Ficha.findByIdAndDelete(id);
+        if (!fichaDeletada) {
+            return res.status(404).json({ erro: 'Ficha não encontrada' });
+        }
+        res.status(200).json({ mensagem: `Ficha ${id} deletada com sucesso.` });
+    } catch (error) {
+        console.error('Erro ao deletar ficha:', error);
+        res.status(500).json({ erro: 'Erro ao deletar ficha' });
+    }
 });
 
 // Outras Rotas
@@ -224,7 +266,13 @@ app.get('/ficha/:id', autenticarUsuario, async (req, res) => {
 
             res.render('fichaTemplate', {
                 ficha: fichaPreparada,
-                listaPericias: fichaController.listaPericias
+                listaPericias: fichaController.listaPericias,
+                pvAtual: ficha.pontosDeVidaAtual,
+                pvMaximo: ficha.pontosDeVidaMax,
+                pmAtual: ficha.pontosDeManaAtual,
+                pmMaximo: ficha.pontosDeManaMax,
+                pontosDeVidaAtual: ficha.pontosDeVidaAtual,
+                pontosDeManaAtual: ficha.pontosDeManaAtual
             });
         } else{
             res.status(404).send('Ficha não encontrada');
@@ -235,31 +283,53 @@ app.get('/ficha/:id', autenticarUsuario, async (req, res) => {
     }
 });
 
-app.post('/ficha/:id/alterarPontos', autenticarUsuario, async (req,res) => {
+app.get('/ficha/:id/dados', autenticarUsuario, async (req, res) => {
     const fichaId = req.params.id;
-    const {tipo,valor} = req.body;
+    try {
+      const ficha = await Ficha.findById(fichaId);
+      if (!ficha) {
+        return res.status(404).json({ erro: 'Ficha não encontrada' });
+      }
+      return res.json({
+        pontosDeVidaAtual: ficha.pontosDeVidaAtual,
+        pontosDeVidaMax: ficha.pontosDeVidaMax,
+        pontosDeManaAtual: ficha.pontosDeManaAtual,
+        pontosDeManaMax: ficha.pontosDeManaMax,
+      });
+    } catch (error) {
+      console.error('Erro ao buscar ficha:', error);
+      return res.status(500).json({ erro: 'Erro ao buscar ficha' });
+    }
+  });
 
-    try{
+app.post('/ficha/:id/alterarPontos', autenticarUsuario, async (req, res) => {
+    const fichaId = req.params.id;
+    const { tipo, valor } = req.body; // Extrair 'tipo' e 'valor'
+
+    try {
         const ficha = await Ficha.findById(fichaId);
-        if(!ficha){
-            return res.status(404).json({erro:'Ficha não encontrada'});
+        if (!ficha) {
+            return res.status(404).json({ erro: 'Ficha não encontrada' });
         }
 
-        if(tipo === 'pv'){
-            ficha.pontosDeVidaAtual = Math.max(0, Math.min(ficha.pontosDeVidaAtual + valor, ficha.pontosDeVidaMax));   
-        } else if (tipo === 'pm'){
+        if (tipo === 'pv') {
+            ficha.pontosDeVidaAtual = Math.max(0, Math.min(ficha.pontosDeVidaAtual + valor, ficha.pontosDeVidaMax));
+        } else if (tipo === 'pm') {
             ficha.pontosDeManaAtual = Math.max(0, Math.min(ficha.pontosDeManaAtual + valor, ficha.pontosDeManaMax));
         } else {
             return res.status(400).send('Tipo inválido');
         }
 
         await ficha.save();
-        res.json(ficha);
-    } catch(error){
+        return res.json(ficha); // Retornar a ficha atualizada
+    } catch (error) {
         console.error('Erro ao alterar pontos:', error);
-        res.status(500).send('Erro interno do servidor');
+        return res.status(500).send('Erro interno do servidor');
     }
 });
+
+
+
 
 app.post('/atualizar_divindade/:id', autenticarUsuario, async (req,res) => {
     try{
@@ -289,6 +359,9 @@ app.post('/ficha/atualizar_info/:id', async (req,res) => {
             return res.status(404).json({erro: 'Ficha não encontrada'});
         }
 
+        console.log(`Ficha Atualizada - PV Max: ${fichaAtualizada.pontosDeVidaMax}`);
+
+
         res.json({mensagem: 'Informações atualizadas com sucesso!'});
     } catch(err){
         console.error(err);
@@ -312,12 +385,13 @@ app.post('/ficha/atualizar_atributos/:id', async (req,res) => {
             return res.status(404).json({erro: 'Ficha não encontrada'});
         }
 
-        res.json({mensagem: 'Atributos atualizados com sucesso!)'});
+        res.json({mensagem: 'Atributos atualizados com sucesso!'});
     } catch(err){
         console.error('Erro ao atualizar atributos:', err);
         res.status(500).json({erro: 'Erro ao atualizar atributos'});
     }
 });
+
 
 //Rota Habilidades\\
 app.post('/ficha/adicionar_habilidade', async (req,res) => {
@@ -325,27 +399,156 @@ app.post('/ficha/adicionar_habilidade', async (req,res) => {
 
     fichaId = fichaId.trim();
 
-    if(!fichaId || !habilidade){
+    if(!fichaId || !habilidade || !habilidade.nome){
+        console.log('Dados incompletos:', req.body);
         return res.status(400).json({success: false, message: 'Dados incompletos.'});
     }
+
+    fichaId = fichaId.trim();
 
     try{
         const ficha = await Ficha.findById(fichaId);
 
         if(!ficha){
+            console.log(`Ficha não encontrada: ${fichaId}`);
             return res.json({success: false, message: 'Ficha não encontrada'});
         }
 
-        ficha.habilidades = ficha.habilidades || [];
-        ficha.habilidades.push(habilidade);
+        ficha.adicionarHabilidade(habilidade.nome.trim());
 
         await ficha.save();
+        console.log(`Habilidade adicionada: ${habilidade.nome.trim()} à ficha ID: ${fichaId}`);
         res.json({success: true});
     } catch(error){
         console.error('Erro ao adicionar habilidade:', error);
         res.status(500).json({success: false, message: 'Erro ao salvar a ficha'});
     }
 });
+
+app.post('/ficha/:id/atualizar_pv', autenticarUsuario, async (req, res) => {
+    const fichaId = req.params.id;
+    const { pvAtual, pvMaximo } = req.body;
+
+    try {
+        const ficha = await Ficha.findById(fichaId);
+        if (!ficha) {
+            return res.status(404).json({ erro: 'Ficha não encontrada' });
+        }
+
+        ficha.pontosDeVidaAtual = pvAtual;
+        ficha.pontosDeVidaMax = pvMaximo;
+
+        await ficha.save();
+        return res.json({ pvAtual: ficha.pontosDeVidaAtual, pvMaximo: ficha.pontosDeVidaMax, mensagem: 'PV atualizado com sucesso!' });
+    } catch (error) {
+        console.error('Erro ao atualizar PV:', error);
+        return res.status(500).json({ erro: 'Erro ao atualizar PV' });
+    }
+});
+
+app.post('/ficha/:id/atualizar_pm', autenticarUsuario, async (req, res) => {
+    const fichaId = req.params.id;
+    const { pmAtual, pmMaximo } = req.body;
+
+    try {
+        const ficha = await Ficha.findById(fichaId);
+        if (!ficha) {
+            return res.status(404).json({ erro: 'Ficha não encontrada' });
+        }
+
+        ficha.pontosDeManaAtual = pmAtual;
+        ficha.pontosDeManaMax = pmMaximo;
+
+        await ficha.save();
+        return res.json({ mensagem: 'PM atualizado com sucesso!' });
+    } catch (error) {
+        console.error('Erro ao atualizar PM:', error);
+        return res.status(500).json({ erro: 'Erro ao atualizar PM' });
+    }
+});
+
+app.post('/ficha/:id/atualizar_nivel', autenticarUsuario, async (req, res)=> {
+    const fichaId = req.params.id;
+    const {nivel} = req.body;  
+    
+    try{
+        const ficha = await Ficha.findById(fichaId);
+        if(!ficha){
+            return res.status(404).json({erro: 'Ficha não encontrada'});
+        }
+
+        ficha.nivel = nivel;
+
+        await ficha.save();
+        res.json({mensagem: 'Nível atualizado com sucesso!'});
+    } catch(error){
+        console.error('Erro ao atualizar nível:', error);
+        res.status(500).json({erro: 'Erro ao atualizar nível'});
+    }
+});
+
+async function removeHabilidade(fichaId,habilidadeNome){
+    try{
+        const ficha = await Ficha.findById(fichaId);
+        if(!ficha){
+            throw new Error('Ficha não encontrada');
+        }
+
+        console.log('Habilidades:', ficha.habilidades);
+
+        const habilidadeIndex = ficha.habilidades.findIndex(hab => 
+            hab.nome.trim().toLowerCase() === habilidadeNome.trim().toLowerCase() 
+        );
+
+        if(habilidadeIndex === -1){
+            throw new Error('Habilidade não encontrada');
+        }
+
+        console.log(`Removendo habilidade: ${habilidadeNome} da ficha ID: ${fichaId}`);
+        ficha.habilidades.splice(habilidadeIndex, 1);
+
+        await ficha.save();
+        console.log('Habilidade removida:', ficha.habilidades);
+    } catch(error){
+        throw error;
+    }
+}
+
+
+app.post('/ficha/remover_habilidade/:fichaId', async (req, res) => {
+    console.log('Rota POST /ficha/remover_habilidade/:fichaId acionada');
+    const fichaId = req.params.fichaId.trim();
+    const {habilidadeNome} = req.body;
+
+    if(!fichaId || !habilidadeNome){
+        return res.status(400).json({success: false, message: 'Dados incompletos.'});
+    }
+
+    try{ 
+        const ficha = await Ficha.findById(fichaId);
+        if(!ficha){
+            console.log(`Ficha não encontrada: ${fichaId}`);
+            return res.status(404).json({success: false, message: 'Ficha não encontrada'});
+        }
+
+        console.log('Habilidades antes da remoção:', ficha.habilidades);
+
+        const removido = ficha.removerHabilidade(habilidadeNome);
+        if(!removido){
+            return res.status(404).json({success: false, message: 'Habilidade não encontrada'});
+        }
+
+        await ficha.save();
+        console.log(`Habilidade removida: ${habilidadeNome} da ficha ID: ${fichaId}`);
+        console.log('Habilidades após a remoção:', ficha.habilidades);
+        res.json({success: true});
+    } catch(error){
+        console.error('Erro ao remover habilidade:', error);
+        res.status(500).json({success: false, message: 'Erro ao remover habilidade'});
+    }
+});
+
+
 
 
 
